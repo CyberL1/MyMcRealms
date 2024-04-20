@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Minecraft_Realms_Emulator.Migrations
+namespace MyMcRealms.Migrations
 {
     /// <inheritdoc />
     public partial class Worlds_Subscription_field : Migration

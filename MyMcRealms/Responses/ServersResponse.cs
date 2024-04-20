@@ -1,6 +1,6 @@
-﻿using Minecraft_Realms_Emulator.Entities;
+﻿using MyMcRealms.Entities;
 
-namespace Minecraft_Realms_Emulator.Responses
+namespace MyMcRealms.Responses
 {
     public class ServersResponse
     {

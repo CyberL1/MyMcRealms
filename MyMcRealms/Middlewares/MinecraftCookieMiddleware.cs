@@ -1,7 +1,7 @@
-﻿using Minecraft_Realms_Emulator.Attributes;
+﻿using MyMcRealms.Attributes;
 using System.Text;
 
-namespace Minecraft_Realms_Emulator.Middlewares
+namespace MyMcRealms.Middlewares
 {
     public class MinecraftCookieMiddleware(RequestDelegate next)
     {

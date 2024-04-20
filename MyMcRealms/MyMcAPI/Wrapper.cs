@@ -1,6 +1,6 @@
-﻿using Minecraft_Realms_Emulator.MyMcAPI.Responses;
+﻿using MyMcRealms.MyMcAPI.Responses;
 
-namespace Minecraft_Realms_Emulator.MyMcAPI
+namespace MyMcRealms.MyMcAPI
 {
     public class MyMcAPI
     {

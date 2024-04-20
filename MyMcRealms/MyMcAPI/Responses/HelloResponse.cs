@@ -1,4 +1,4 @@
-﻿namespace Minecraft_Realms_Emulator.MyMcAPI.Responses
+﻿namespace MyMcRealms.MyMcAPI.Responses
 {
     public class HelloResponse
     {

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Minecraft_Realms_Emulator.Data;
-using Minecraft_Realms_Emulator.Entities;
+using MyMcRealms.Data;
+using MyMcRealms.Entities;
 
-namespace Minecraft_Realms_Emulator.Helpers
+namespace MyMcRealms.Helpers
 {
     public class Database
     {

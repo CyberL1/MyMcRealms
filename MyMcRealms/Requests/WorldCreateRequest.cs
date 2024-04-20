@@ -1,4 +1,4 @@
-﻿namespace Minecraft_Realms_Emulator.Requests
+﻿namespace MyMcRealms.Requests
 {
     public class WorldCreateRequest
     {

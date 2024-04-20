@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Minecraft_Realms_Emulator.Data;
+using MyMcRealms.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Minecraft_Realms_Emulator.Migrations
+namespace MyMcRealms.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20240414062222_Configuration_Json")]
@@ -26,7 +26,7 @@ namespace Minecraft_Realms_Emulator.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Minecraft_Realms_Emulator.Entities.Backup", b =>
+            modelBuilder.Entity("MyMcRealms.Entities.Backup", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -58,7 +58,7 @@ namespace Minecraft_Realms_Emulator.Migrations
                     b.ToTable("Backups");
                 });
 
-            modelBuilder.Entity("Minecraft_Realms_Emulator.Entities.Configuration", b =>
+            modelBuilder.Entity("MyMcRealms.Entities.Configuration", b =>
                 {
                     b.Property<string>("Key")
                         .HasColumnType("text");
@@ -72,7 +72,7 @@ namespace Minecraft_Realms_Emulator.Migrations
                     b.ToTable("Configuration");
                 });
 
-            modelBuilder.Entity("Minecraft_Realms_Emulator.Entities.Connection", b =>
+            modelBuilder.Entity("MyMcRealms.Entities.Connection", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -97,7 +97,7 @@ namespace Minecraft_Realms_Emulator.Migrations
                     b.ToTable("Connections");
                 });
 
-            modelBuilder.Entity("Minecraft_Realms_Emulator.Entities.Invite", b =>
+            modelBuilder.Entity("MyMcRealms.Entities.Invite", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -126,7 +126,7 @@ namespace Minecraft_Realms_Emulator.Migrations
                     b.ToTable("Invites");
                 });
 
-            modelBuilder.Entity("Minecraft_Realms_Emulator.Entities.Player", b =>
+            modelBuilder.Entity("MyMcRealms.Entities.Player", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -165,7 +165,7 @@ namespace Minecraft_Realms_Emulator.Migrations
                     b.ToTable("Players");
                 });
 
-            modelBuilder.Entity("Minecraft_Realms_Emulator.Entities.Subscription", b =>
+            modelBuilder.Entity("MyMcRealms.Entities.Subscription", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -191,7 +191,7 @@ namespace Minecraft_Realms_Emulator.Migrations
                     b.ToTable("Subscriptions");
                 });
 
-            modelBuilder.Entity("Minecraft_Realms_Emulator.Entities.World", b =>
+            modelBuilder.Entity("MyMcRealms.Entities.World", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -246,9 +246,9 @@ namespace Minecraft_Realms_Emulator.Migrations
                     b.ToTable("Worlds");
                 });
 
-            modelBuilder.Entity("Minecraft_Realms_Emulator.Entities.Backup", b =>
+            modelBuilder.Entity("MyMcRealms.Entities.Backup", b =>
                 {
-                    b.HasOne("Minecraft_Realms_Emulator.Entities.World", "World")
+                    b.HasOne("MyMcRealms.Entities.World", "World")
                         .WithMany()
                         .HasForeignKey("WorldId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -257,9 +257,9 @@ namespace Minecraft_Realms_Emulator.Migrations
                     b.Navigation("World");
                 });
 
-            modelBuilder.Entity("Minecraft_Realms_Emulator.Entities.Connection", b =>
+            modelBuilder.Entity("MyMcRealms.Entities.Connection", b =>
                 {
-                    b.HasOne("Minecraft_Realms_Emulator.Entities.World", "World")
+                    b.HasOne("MyMcRealms.Entities.World", "World")
                         .WithMany()
                         .HasForeignKey("WorldId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -268,9 +268,9 @@ namespace Minecraft_Realms_Emulator.Migrations
                     b.Navigation("World");
                 });
 
-            modelBuilder.Entity("Minecraft_Realms_Emulator.Entities.Invite", b =>
+            modelBuilder.Entity("MyMcRealms.Entities.Invite", b =>
                 {
-                    b.HasOne("Minecraft_Realms_Emulator.Entities.World", "World")
+                    b.HasOne("MyMcRealms.Entities.World", "World")
                         .WithMany()
                         .HasForeignKey("WorldId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -279,9 +279,9 @@ namespace Minecraft_Realms_Emulator.Migrations
                     b.Navigation("World");
                 });
 
-            modelBuilder.Entity("Minecraft_Realms_Emulator.Entities.Player", b =>
+            modelBuilder.Entity("MyMcRealms.Entities.Player", b =>
                 {
-                    b.HasOne("Minecraft_Realms_Emulator.Entities.World", "World")
+                    b.HasOne("MyMcRealms.Entities.World", "World")
                         .WithMany("Players")
                         .HasForeignKey("WorldId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -290,18 +290,18 @@ namespace Minecraft_Realms_Emulator.Migrations
                     b.Navigation("World");
                 });
 
-            modelBuilder.Entity("Minecraft_Realms_Emulator.Entities.Subscription", b =>
+            modelBuilder.Entity("MyMcRealms.Entities.Subscription", b =>
                 {
-                    b.HasOne("Minecraft_Realms_Emulator.Entities.World", "World")
+                    b.HasOne("MyMcRealms.Entities.World", "World")
                         .WithOne("Subscription")
-                        .HasForeignKey("Minecraft_Realms_Emulator.Entities.Subscription", "WorldId")
+                        .HasForeignKey("MyMcRealms.Entities.Subscription", "WorldId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("World");
                 });
 
-            modelBuilder.Entity("Minecraft_Realms_Emulator.Entities.World", b =>
+            modelBuilder.Entity("MyMcRealms.Entities.World", b =>
                 {
                     b.Navigation("Players");
 
