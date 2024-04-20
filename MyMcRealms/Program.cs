@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using MyMcRealms.Data;
 using MyMcRealms.Helpers;
 using MyMcRealms.Middlewares;
-using MyMcRealms.MyMcAPI;
 using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -51,8 +50,5 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<MinecraftCookieMiddleware>();
 
 app.MapControllers();
-
-var mymc = new MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
-mymc.GetHello();
 
 app.Run();

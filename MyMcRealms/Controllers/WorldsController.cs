@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using MyMcRealms.Attributes;
 using MyMcRealms.Data;
 using MyMcRealms.Entities;
+using MyMcRealms.MyMcAPI;
+using MyMcRealms.MyMcAPI.Responses;
 using MyMcRealms.Requests;
 using MyMcRealms.Responses;
 using Newtonsoft.Json;
@@ -29,85 +31,30 @@ namespace MyMcRealms.Controllers
             string playerUUID = cookie.Split(";")[0].Split(":")[2];
             string playerName = cookie.Split(";")[1].Split("=")[1];
 
-            var ownedWorlds = await _context.Worlds.Where(w => w.OwnerUUID == playerUUID).Include(w => w.Subscription).ToListAsync();
-            var memberWorlds = await _context.Players.Where(p => p.Uuid == playerUUID && p.Accepted).Include(p => p.World.Subscription).Select(p => p.World).ToListAsync();
-
             List<WorldResponse> allWorlds = [];
 
-            if (ownedWorlds.ToArray().Length == 0)
+            AllServersResponse AllServers = await new MyMcAPI.MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY")).GetAllServers();
+
+            foreach (var world in AllServers.Servers)
             {
-                var world = new World
+                WorldResponse response = new()
                 {
-                    Owner = playerName,
-                    OwnerUUID = playerUUID,
-                    Name = null,
-                    Motd = null,
-                    State = "UNINITIALIZED",
+                    Id = AllServers.Servers.IndexOf(world),
+                    Owner = "Owner",
+                    OwnerUUID = "87a2931cf37f4867b6dd1f0699e138d3s",
+                    Name = "my-mc.link world",
+                    Motd = "A world hosted on my-mc.link",
+                    State = "OPEN",
                     WorldType = "NORMAL",
                     MaxPlayers = 10,
                     MinigameId = null,
                     MinigameName = null,
                     MinigameImage = null,
                     ActiveSlot = 1,
-                    Member = false
-                };
-
-                ownedWorlds.Add(world);
-                _context.Worlds.Add(world);
-
-                _context.SaveChanges();
-            }
-
-            foreach (var world in ownedWorlds)
-            {
-                WorldResponse response = new()
-                {
-                    Id = world.Id,
-                    Owner = world.Owner,
-                    OwnerUUID = world.OwnerUUID,
-                    Name = world.Name,
-                    Motd = world.Motd,
-                    State = world.State,
-                    WorldType = world.WorldType,
-                    MaxPlayers = world.MaxPlayers,
-                    MinigameId = world.MinigameId,
-                    MinigameName = world.MinigameName,
-                    MinigameImage = world.MinigameImage,
-                    ActiveSlot = world.ActiveSlot,
-                    Member = world.Member,
-                    Players = world.Players
-                };
-
-                if (world.Subscription != null)
-                {
-                    response.DaysLeft = ((DateTimeOffset)world.Subscription.StartDate.AddDays(30) - DateTime.Today).Days;
-                    response.Expired = ((DateTimeOffset)world.Subscription.StartDate.AddDays(30) - DateTime.Today).Days < 0;
-                    response.ExpiredTrial = false;
-                }
-
-                allWorlds.Add(response);
-            }
-
-            foreach (var world in memberWorlds)
-            {
-                WorldResponse response = new()
-                {
-                    Id = world.Id,
-                    Owner = world.Owner,
-                    OwnerUUID = world.OwnerUUID,
-                    Name = world.Name,
-                    Motd = world.Motd,
-                    State = world.State,
-                    WorldType = world.WorldType,
-                    MaxPlayers = world.MaxPlayers,
-                    MinigameId = world.MinigameId,
-                    MinigameName = world.MinigameName,
-                    MinigameImage = world.MinigameImage,
-                    ActiveSlot = world.ActiveSlot,
-                    Member = world.Member,
-                    Players = world.Players,
+                    Member = false,
+                    Players = [],
                     DaysLeft = 0,
-                    Expired = ((DateTimeOffset)world.Subscription.StartDate.AddDays(30) - DateTime.Today).Days < 0,
+                    Expired = false,
                     ExpiredTrial = false
                 };
 
@@ -269,9 +216,15 @@ namespace MyMcRealms.Controllers
         }
 
         [HttpGet("v1/{wId}/join/pc")]
-        public ActionResult<Connection> Join(int wId)
+        public async Task<ActionResult<Connection>> Join(int wId)
         {
-            var connection = _context.Connections.FirstOrDefault(x => x.World.Id == wId);
+            AllServersResponse AllServers = await new MyMcAPI.MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY")).GetAllServers();
+
+            ConnectionResponse connection = new()
+            {
+                Address = AllServers.Servers[wId].Connect,
+                PendingUpdate = false
+            };
 
             return Ok(connection);
         }
