@@ -13,6 +13,12 @@ if (Environment.GetEnvironmentVariable("CONNECTION_STRING") == null)
     return;
 }
 
+if (Environment.GetEnvironmentVariable("MYMC_API_KEY") == null)
+{
+    Console.WriteLine("MYMC_API_KEY environment variable missing");
+    return;
+}
+
 // Add services to the container.
 
 builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles);
@@ -44,5 +50,8 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<MinecraftCookieMiddleware>();
 
 app.MapControllers();
+
+var mymc = new MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
+mymc.GetHello();
 
 app.Run();
