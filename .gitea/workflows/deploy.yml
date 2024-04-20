@@ -15,5 +15,9 @@ jobs:
           ./dotnet-install.sh
       - name: Compile MyMcRealms
         run: /root/.dotnet/dotnet publish --runtime linux-arm64
+      - name: Install sshpass
+        run: |
+          apt-get update
+          apt-get install sshpass
       - name: Deploy compiled binary and dll files to server
-        run: scp -r -P 9476 MyMcRealms\bin\Release\net8.0\linux-arm64\publish\* root@ssh.surf:/root/MyMcRealms
+        run: sshpass -p '${{ secrets.VPS_PASSWORD }}' scp -r -P 9476 MyMcRealms\bin\Release\net8.0\linux-arm64\publish\* root@ssh.surf:/root/MyMcRealms
