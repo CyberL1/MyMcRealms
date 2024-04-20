@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Minecraft_Realms_Emulator.Entities;
+using MyMcRealms.Entities;
 
-namespace Minecraft_Realms_Emulator.Data
+namespace MyMcRealms.Data
 {
     public class DataContext(DbContextOptions<DataContext> options) : DbContext(options)
     {

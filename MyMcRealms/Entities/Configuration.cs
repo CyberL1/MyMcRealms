@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Minecraft_Realms_Emulator.Entities
+namespace MyMcRealms.Entities
 {
     [PrimaryKey(nameof(Key))]
     public class Configuration

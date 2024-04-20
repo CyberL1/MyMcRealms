@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Minecraft_Realms_Emulator.Entities
+namespace MyMcRealms.Entities
 {
     public class World
     {

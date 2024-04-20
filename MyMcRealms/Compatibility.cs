@@ -1,4 +1,4 @@
-﻿namespace Minecraft_Realms_Emulator
+﻿namespace MyMcRealms
 {
     public enum Compatility
     {

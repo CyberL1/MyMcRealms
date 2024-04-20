@@ -1,4 +1,4 @@
-﻿namespace Minecraft_Realms_Emulator.Entities
+﻿namespace MyMcRealms.Entities
 {
     public class Connection
     {

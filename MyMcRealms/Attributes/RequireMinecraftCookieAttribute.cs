@@ -1,4 +1,4 @@
-﻿namespace Minecraft_Realms_Emulator.Attributes
+﻿namespace MyMcRealms.Attributes
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class RequireMinecraftCookieAttribute : Attribute

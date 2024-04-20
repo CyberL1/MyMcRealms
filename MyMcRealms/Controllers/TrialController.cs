@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Minecraft_Realms_Emulator.Attributes;
-using Minecraft_Realms_Emulator.Data;
+using MyMcRealms.Attributes;
+using MyMcRealms.Data;
 
-namespace Minecraft_Realms_Emulator.Controllers
+namespace MyMcRealms.Controllers
 {
     [Route("[controller]")]
     [ApiController]

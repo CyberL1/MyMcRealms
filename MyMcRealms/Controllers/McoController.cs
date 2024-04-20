@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Minecraft_Realms_Emulator.Attributes;
-using Minecraft_Realms_Emulator.Data;
-using Minecraft_Realms_Emulator.Responses;
+using MyMcRealms.Attributes;
+using MyMcRealms.Data;
+using MyMcRealms.Responses;
 using Newtonsoft.Json;
 
-namespace Minecraft_Realms_Emulator.Controllers
+namespace MyMcRealms.Controllers
 {
     [Route("[controller]")]
     [ApiController]

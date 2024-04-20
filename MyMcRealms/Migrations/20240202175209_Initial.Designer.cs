@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Minecraft_Realms_Emulator.Data;
+using MyMcRealms.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Minecraft_Realms_Emulator.Migrations
+namespace MyMcRealms.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20240202175209_Initial")]
@@ -25,7 +25,7 @@ namespace Minecraft_Realms_Emulator.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Minecraft_Realms_Emulator.Entities.World", b =>
+            modelBuilder.Entity("MyMcRealms.Entities.World", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

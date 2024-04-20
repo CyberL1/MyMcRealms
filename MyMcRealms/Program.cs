@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using Minecraft_Realms_Emulator.Data;
-using Minecraft_Realms_Emulator.Helpers;
-using Minecraft_Realms_Emulator.Middlewares;
-using Minecraft_Realms_Emulator.MyMcAPI;
+using MyMcRealms.Data;
+using MyMcRealms.Helpers;
+using MyMcRealms.Middlewares;
+using MyMcRealms.MyMcAPI;
 using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -1,4 +1,4 @@
-﻿namespace Minecraft_Realms_Emulator.Responses
+﻿namespace MyMcRealms.Responses
 {
     public class SubscriptionResponse
     {

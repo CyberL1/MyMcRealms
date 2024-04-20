@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Minecraft_Realms_Emulator.Migrations
+namespace MyMcRealms.Migrations
 {
     /// <inheritdoc />
     public partial class Subscriptions_StartDate_Readable_Field : Migration
