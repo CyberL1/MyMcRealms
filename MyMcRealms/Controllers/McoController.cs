@@ -42,5 +42,11 @@ namespace MyMcRealms.Controllers
 
             return news;
         }
+
+        [HttpPost("tos/agreed")]
+        public ActionResult TosAgree()
+        {
+            return Ok();
+        }
     }
 }
