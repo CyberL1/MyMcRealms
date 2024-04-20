@@ -41,7 +41,7 @@ namespace MyMcRealms.Controllers
                 {
                     Id = AllServers.Servers.IndexOf(world),
                     Owner = "Owner",
-                    OwnerUUID = "87a2931cf37f4867b6dd1f0699e138d3s",
+                    OwnerUUID = "069a79f444e94726a5befca90e38aaf5",
                     Name = "my-mc.link world",
                     Motd = "A world hosted on my-mc.link",
                     State = "OPEN",
@@ -55,7 +55,8 @@ namespace MyMcRealms.Controllers
                     Players = [],
                     DaysLeft = 0,
                     Expired = false,
-                    ExpiredTrial = false
+                    ExpiredTrial = false,
+                    Compatibility = "COMPATIBLE"
                 };
 
                 allWorlds.Add(response);
@@ -219,7 +220,7 @@ namespace MyMcRealms.Controllers
         public async Task<ActionResult<Connection>> Join(int wId)
         {
             AllServersResponse AllServers = await new MyMcAPI.MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY")).GetAllServers();
-
+            
             ConnectionResponse connection = new()
             {
                 Address = AllServers.Servers[wId].Connect,
