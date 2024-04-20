@@ -1,6 +1,6 @@
-﻿using Minecraft_Realms_Emulator.MyMcAPIResponses;
+﻿using Minecraft_Realms_Emulator.MyMcAPI.Responses;
 
-namespace Minecraft_Realms_Emulator.Helpers
+namespace Minecraft_Realms_Emulator.MyMcAPI
 {
     public class MyMcAPI
     {
@@ -15,7 +15,7 @@ namespace Minecraft_Realms_Emulator.Helpers
 
         public async void GetHello()
         {
-            var response = await httpClient.GetFromJsonAsync<MyMcHelloResponse>("hello");
+            var response = await httpClient.GetFromJsonAsync<HelloResponse>("hello");
             Console.WriteLine(response.Message);
         }
     }
