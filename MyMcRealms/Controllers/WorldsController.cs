@@ -8,6 +8,7 @@ using MyMcRealms.MyMcAPI.Responses;
 using MyMcRealms.Requests;
 using MyMcRealms.Responses;
 using Newtonsoft.Json;
+using Semver;
 
 namespace MyMcRealms.Controllers
 {
@@ -38,7 +39,10 @@ namespace MyMcRealms.Controllers
 
             foreach (var world in AllServers.Servers)
             {
-                Console.WriteLine(world.ServerName);
+                int versionsCompared = SemVersion.Parse(gameVerision, SemVersionStyles.Strict).ComparePrecedenceTo(SemVersion.Parse(world.GameVersion, SemVersionStyles.Strict));
+
+                string isCompatible = versionsCompared == 0 ? "COMPATIBLE" : versionsCompared > 0 ? "NEEDS_DOWNGRADE" : "NEEDS_UPGRADE";
+
                 WorldResponse response = new()
                 {
                     Id = AllServers.Servers.IndexOf(world),
@@ -58,7 +62,8 @@ namespace MyMcRealms.Controllers
                     DaysLeft = 0,
                     Expired = false,
                     ExpiredTrial = false,
-                    Compatibility = world.GameVersion == gameVerision ? "COMPATIBLE" : "INCOMPATIBLE"
+                    Compatibility = isCompatible,
+                    ActiveVersion = world.GameVersion
                 };
 
                 allWorlds.Add(response);
