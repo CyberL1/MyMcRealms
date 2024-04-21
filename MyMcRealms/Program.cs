@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using MyMcRealms.Data;
 using MyMcRealms.Helpers;
 using MyMcRealms.Middlewares;
@@ -25,6 +26,7 @@ builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.Re
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDirectoryBrowser();
 
 var dataSourceBuilder = new NpgsqlDataSourceBuilder(Environment.GetEnvironmentVariable("CONNECTION_STRING"));
 dataSourceBuilder.EnableDynamicJson();
@@ -50,5 +52,21 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<MinecraftCookieMiddleware>();
 
 app.MapControllers();
+app.UseStaticFiles();
+
+var fileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.WebRootPath, "public"));
+var requestPath = "/public";
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = fileProvider,
+    RequestPath = requestPath
+});
+
+app.UseDirectoryBrowser(new DirectoryBrowserOptions
+{
+    FileProvider = fileProvider,
+    RequestPath = requestPath
+});
 
 app.Run();
