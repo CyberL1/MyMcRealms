@@ -52,7 +52,7 @@ namespace MyMcRealms.Migrations
 
                     b.HasIndex("WorldId");
 
-                    b.ToTable("Backups");
+                    b.ToTable("Backups", (string)null);
                 });
 
             modelBuilder.Entity("MyMcRealms.Entities.Configuration", b =>
@@ -66,7 +66,7 @@ namespace MyMcRealms.Migrations
 
                     b.HasKey("Key");
 
-                    b.ToTable("Configuration");
+                    b.ToTable("Configuration", (string)null);
                 });
 
             modelBuilder.Entity("MyMcRealms.Entities.Connection", b =>
@@ -91,7 +91,7 @@ namespace MyMcRealms.Migrations
 
                     b.HasIndex("WorldId");
 
-                    b.ToTable("Connections");
+                    b.ToTable("Connections", (string)null);
                 });
 
             modelBuilder.Entity("MyMcRealms.Entities.Invite", b =>
@@ -120,7 +120,7 @@ namespace MyMcRealms.Migrations
 
                     b.HasIndex("WorldId");
 
-                    b.ToTable("Invites");
+                    b.ToTable("Invites", (string)null);
                 });
 
             modelBuilder.Entity("MyMcRealms.Entities.Player", b =>
@@ -159,7 +159,7 @@ namespace MyMcRealms.Migrations
 
                     b.HasIndex("WorldId");
 
-                    b.ToTable("Players");
+                    b.ToTable("Players", (string)null);
                 });
 
             modelBuilder.Entity("MyMcRealms.Entities.Subscription", b =>
@@ -185,7 +185,7 @@ namespace MyMcRealms.Migrations
                     b.HasIndex("WorldId")
                         .IsUnique();
 
-                    b.ToTable("Subscriptions");
+                    b.ToTable("Subscriptions", (string)null);
                 });
 
             modelBuilder.Entity("MyMcRealms.Entities.World", b =>
@@ -240,7 +240,7 @@ namespace MyMcRealms.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Worlds");
+                    b.ToTable("Worlds", (string)null);
                 });
 
             modelBuilder.Entity("MyMcRealms.Entities.Backup", b =>
