@@ -41,7 +41,7 @@ namespace MyMcRealms.Controllers
             {
                 int versionsCompared = SemVersion.Parse(gameVerision, SemVersionStyles.Strict).ComparePrecedenceTo(SemVersion.Parse(world.GameVersion, SemVersionStyles.Strict));
 
-                string isCompatible = versionsCompared == 0 ? "COMPATIBLE" : versionsCompared > 0 ? "NEEDS_DOWNGRADE" : "NEEDS_UPGRADE";
+                string isCompatible = versionsCompared == 0 ? "COMPATIBLE" : versionsCompared < 0 ? "NEEDS_DOWNGRADE" : "NEEDS_UPGRADE";
 
                 WorldResponse response = new()
                 {
