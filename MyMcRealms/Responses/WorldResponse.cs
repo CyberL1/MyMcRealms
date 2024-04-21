@@ -7,5 +7,6 @@
         public bool Expired { get; set; } = false;
         public bool ExpiredTrial { get; set; } = false;
         public string Compatibility { get; set; } = string.Empty;
+        public string ActiveVersion { get; set; } = string.Empty;
     }
 }
