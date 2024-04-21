@@ -30,6 +30,7 @@ namespace MyMcRealms.Controllers
 
             string playerUUID = cookie.Split(";")[0].Split(":")[2];
             string playerName = cookie.Split(";")[1].Split("=")[1];
+            string gameVerision = cookie.Split(";")[2].Split("=")[1];
 
             List<WorldResponse> allWorlds = [];
 
@@ -37,6 +38,7 @@ namespace MyMcRealms.Controllers
 
             foreach (var world in AllServers.Servers)
             {
+                Console.WriteLine(world.ServerName);
                 WorldResponse response = new()
                 {
                     Id = AllServers.Servers.IndexOf(world),
@@ -56,7 +58,7 @@ namespace MyMcRealms.Controllers
                     DaysLeft = 0,
                     Expired = false,
                     ExpiredTrial = false,
-                    Compatibility = "COMPATIBLE"
+                    Compatibility = world.GameVersion == gameVerision ? "COMPATIBLE" : "INCOMPATIBLE"
                 };
 
                 allWorlds.Add(response);
