@@ -20,7 +20,7 @@ jobs:
           apt-get update
           apt-get install sshpass
       - name: Stop the realms server for the deployment
-        run: sshpass -p '${{ secrets.VPS_PASSWORD }}' ssh -p 9476 root@ssh.surf "pm2 stop 0"
+        run: sshpass -p '${{ secrets.VPS_PASSWORD }}' ssh -vvvv -p 9476 root@ssh.surf "pm2 stop 0"
       - name: Deploy compiled binary and dll files to server
         run: sshpass -p '${{ secrets.VPS_PASSWORD }}' scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -P 9476 MyMcRealms/bin/Release/net8.0/linux-arm64/publish/* root@ssh.surf:/root/MyMcRealms
       - name: Start the realms server again
