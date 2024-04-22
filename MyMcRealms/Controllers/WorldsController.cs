@@ -49,7 +49,7 @@ namespace MyMcRealms.Controllers
                     Owner = "Owner",
                     OwnerUUID = "069a79f444e94726a5befca90e38aaf5",
                     Name = world.ServerName,
-                    Motd = "A world hosted on my-mc.link",
+                    Motd = world.Motd,
                     State = "OPEN",
                     WorldType = "NORMAL",
                     MaxPlayers = 10,
