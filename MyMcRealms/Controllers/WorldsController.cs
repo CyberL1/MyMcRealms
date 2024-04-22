@@ -48,7 +48,7 @@ namespace MyMcRealms.Controllers
                     Id = AllServers.Servers.IndexOf(world),
                     Owner = "Owner",
                     OwnerUUID = "069a79f444e94726a5befca90e38aaf5",
-                    Name = "my-mc.link world",
+                    Name = world.ServerName,
                     Motd = "A world hosted on my-mc.link",
                     State = "OPEN",
                     WorldType = "NORMAL",
