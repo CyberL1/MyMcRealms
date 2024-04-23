@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using MyMcRealms.Attributes;
 using MyMcRealms.Data;
 using MyMcRealms.Entities;
-using MyMcRealms.MyMcAPI;
 using MyMcRealms.MyMcAPI.Responses;
 using MyMcRealms.Requests;
 using MyMcRealms.Responses;
@@ -227,7 +226,7 @@ namespace MyMcRealms.Controllers
         public async Task<ActionResult<Connection>> Join(int wId)
         {
             AllServersResponse AllServers = await new MyMcAPI.MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY")).GetAllServers();
-            
+
             ConnectionResponse connection = new()
             {
                 Address = AllServers.Servers[wId].Connect,
