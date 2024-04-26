@@ -17,8 +17,8 @@ jobs:
         run: /home/runner/.dotnet/dotnet publish --runtime linux-arm64
       - name: Install sshpass
         run: |
-          apt-get update
-          apt-get install sshpass
+          sudo apt-get update
+          sudo apt-get install sshpass
       - name: Stop the realms server for the deployment
         run: sshpass -p '${{ secrets.VPS_PASSWORD }}' ssh -o StrictHostKeyChecking=no -p 9476 root@ssh.surf "pm2 stop 0"
       - name: Deploy compiled binary and dll files to server
