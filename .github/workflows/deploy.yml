@@ -14,7 +14,7 @@ jobs:
           chmod +x dotnet-install.sh
           ./dotnet-install.sh
       - name: Compile MyMcRealms
-        run: .dotnet/dotnet publish --runtime linux-arm64
+        run: /home/runner/.dotnet/dotnet publish --runtime linux-arm64
       - name: Install sshpass
         run: |
           apt-get update
