@@ -39,8 +39,10 @@ namespace MyMcRealms.Controllers
             foreach (var world in AllServers.Servers)
             {
                 int versionsCompared = SemVersion.Parse(gameVerision, SemVersionStyles.OptionalPatch).ComparePrecedenceTo(SemVersion.Parse(world.GameVersion, SemVersionStyles.OptionalPatch));
-
                 string isCompatible = versionsCompared == 0 ? "COMPATIBLE" : versionsCompared < 0 ? "NEEDS_DOWNGRADE" : "NEEDS_UPGRADE";
+
+                bool isOlderVersion = SemVersion.Parse(gameVerision, SemVersionStyles.OptionalPatch).ComparePrecedenceTo(SemVersion.Parse("1.20.3", SemVersionStyles.OptionalPatch)) < 0;
+                string isCompatibleOnOlderVersions = (isOlderVersion && isCompatible.StartsWith("NEEDS_")) ? "CLOSED" : "OPEN";
 
                 WorldResponse response = new()
                 {
@@ -49,7 +51,7 @@ namespace MyMcRealms.Controllers
                     OwnerUUID = "069a79f444e94726a5befca90e38aaf5",
                     Name = world.ServerName,
                     Motd = world.Motd,
-                    State = "OPEN",
+                    State = isCompatibleOnOlderVersions,
                     WorldType = "NORMAL",
                     MaxPlayers = 10,
                     MinigameId = null,
