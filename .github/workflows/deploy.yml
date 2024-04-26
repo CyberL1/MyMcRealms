@@ -13,9 +13,8 @@ jobs:
           wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
           chmod +x dotnet-install.sh
           ./dotnet-install.sh
-          chmod +x /root/.dotnet/dotnet
       - name: Compile MyMcRealms
-        run: /root/.dotnet/dotnet publish --runtime linux-arm64
+        run: .dotnet/dotnet publish --runtime linux-arm64
       - name: Install sshpass
         run: |
           apt-get update
