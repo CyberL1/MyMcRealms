@@ -20,7 +20,7 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
       - name: Add the ssh key to known_keys
-        run: ssh-keyscan cyber@mymc-link > /home/runner/.ssh/known_keys
+        run: ssh-keyscan cyber@my-mc.link > /home/runner/.ssh/known_keys
       - name: Stop the realms server for the deployment
         run: ssh cyber@my-mc.link "pm2 stop 0"
       - name: Deploy compiled binary and dll files to server
