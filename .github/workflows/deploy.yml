@@ -15,15 +15,13 @@ jobs:
           ./dotnet-install.sh
       - name: Compile MyMcRealms
         run: /home/runner/.dotnet/dotnet publish --runtime linux-arm64
-      - name: Install ssh agent
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
-      - name: Add the ssh key to known_keys
-        run: ssh-keyscan cyber@my-mc.link > /home/runner/.ssh/known_keys
+      - name: Install sshpass
+        run: |
+          sudo apt-get update
+          sudo apt-get install sshpass
       - name: Stop the realms server for the deployment
-        run: ssh cyber@my-mc.link "pm2 stop 0"
+        run: sshpass -p '${{ secrets.VPS_PASSWORD }}' ssh -o StrictHostKeyChecking=no -p 9476 root@ssh.surf "pm2 stop 0"
       - name: Deploy compiled binary and dll files to server
-        run: scp -r MyMcRealms/bin/Release/net8.0/linux-arm64/publish/* cyber@my-mc.link:/home/cyber/MyMcRealms
+        run: sshpass -p '${{ secrets.VPS_PASSWORD }}' scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -P 9476 MyMcRealms/bin/Release/net8.0/linux-arm64/publish/* root@ssh.surf:/root/MyMcRealms
       - name: Start the realms server again
-        run: ssh -p cyber@my-mc.link "pm2 start 0"
+        run: sshpass -p '${{ secrets.VPS_PASSWORD }}' ssh -o StrictHostKeyChecking=no -p 9476 root@ssh.surf "pm2 start 0"
