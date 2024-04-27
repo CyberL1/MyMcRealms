@@ -22,6 +22,6 @@ jobs:
       - name: Stop the realms server for the deployment
         run: sshpass -p '${{ secrets.VPS_PASSWORD }}' ssh -o StrictHostKeyChecking=no cyber@my-mc.link "pm2 stop 0"
       - name: Deploy compiled binary and dll files to server
-        run: sshpass -p '${{ secrets.VPS_PASSWORD }}' scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r MyMcRealms/bin/Release/net8.0/linux-arm64/publish/* cyber@my-mc.link:/root/MyMcRealms
+        run: sshpass -p '${{ secrets.VPS_PASSWORD }}' scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r MyMcRealms/bin/Release/net8.0/linux-arm64/publish/* cyber@my-mc.link:/home/cyber/MyMcRealms
       - name: Start the realms server again
         run: sshpass -p '${{ secrets.VPS_PASSWORD }}' ssh -o StrictHostKeyChecking=no cyber@my-mc.link "pm2 start 0"
