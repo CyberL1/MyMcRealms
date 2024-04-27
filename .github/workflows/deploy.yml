@@ -20,8 +20,8 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
       - name: Stop the realms server for the deployment
-        run: ssh -o StrictHostKeyChecking=no my-mc.link "pm2 stop 0"
+        run: ssh -o StrictHostKeyChecking=no cyber@my-mc.link "pm2 stop 0"
       - name: Deploy compiled binary and dll files to server
-        run: scp -o StrictHostKeyChecking=no -r MyMcRealms/bin/Release/net8.0/linux-arm64/publish/* my-mc.link:/home/cyber/MyMcRealms
+        run: scp -o StrictHostKeyChecking=no -r MyMcRealms/bin/Release/net8.0/linux-arm64/publish/* cyber@my-mc.link:/home/cyber/MyMcRealms
       - name: Start the realms server again
-        run: ssh -o StrictHostKeyChecking=no -p my-mc.link "pm2 start 0"
+        run: ssh -o StrictHostKeyChecking=no -p cyber@my-mc.link "pm2 start 0"
