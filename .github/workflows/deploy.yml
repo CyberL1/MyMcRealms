@@ -1,6 +1,6 @@
 name: Deploy
 run-name: Deploy 🚀
-on: [push]
+on: [push, workflow_dispatch]
 
 jobs:
   Deploy:
