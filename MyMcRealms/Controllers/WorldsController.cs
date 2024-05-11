@@ -38,36 +38,39 @@ namespace MyMcRealms.Controllers
 
             foreach (var world in AllServers.Servers)
             {
-                int versionsCompared = SemVersion.Parse(gameVerision, SemVersionStyles.OptionalPatch).ComparePrecedenceTo(SemVersion.Parse(world.GameVersion, SemVersionStyles.OptionalPatch));
-                string isCompatible = versionsCompared == 0 ? "COMPATIBLE" : versionsCompared < 0 ? "NEEDS_DOWNGRADE" : "NEEDS_UPGRADE";
-
-                bool isOlderVersion = SemVersion.Parse(gameVerision, SemVersionStyles.OptionalPatch).ComparePrecedenceTo(SemVersion.Parse("1.20.3", SemVersionStyles.OptionalPatch)) < 0;
-                string isCompatibleOnOlderVersions = (isOlderVersion && isCompatible.StartsWith("NEEDS_")) ? "CLOSED" : "OPEN";
-
-                WorldResponse response = new()
+                if (world.Online)
                 {
-                    Id = AllServers.Servers.IndexOf(world),
-                    Owner = "Owner",
-                    OwnerUUID = "069a79f444e94726a5befca90e38aaf5",
-                    Name = world.ServerName,
-                    Motd = world.Motd,
-                    State = isCompatibleOnOlderVersions,
-                    WorldType = "NORMAL",
-                    MaxPlayers = 10,
-                    MinigameId = null,
-                    MinigameName = null,
-                    MinigameImage = null,
-                    ActiveSlot = 1,
-                    Member = false,
-                    Players = [],
-                    DaysLeft = 0,
-                    Expired = false,
-                    ExpiredTrial = false,
-                    Compatibility = isCompatible,
-                    ActiveVersion = world.GameVersion
-                };
+                    int versionsCompared = SemVersion.Parse(gameVerision, SemVersionStyles.OptionalPatch).ComparePrecedenceTo(SemVersion.Parse(world.GameVersion, SemVersionStyles.OptionalPatch));
+                    string isCompatible = versionsCompared == 0 ? "COMPATIBLE" : versionsCompared < 0 ? "NEEDS_DOWNGRADE" : "NEEDS_UPGRADE";
 
-                allWorlds.Add(response);
+                    bool isOlderVersion = SemVersion.Parse(gameVerision, SemVersionStyles.OptionalPatch).ComparePrecedenceTo(SemVersion.Parse("1.20.3", SemVersionStyles.OptionalPatch)) < 0;
+                    string isCompatibleOnOlderVersions = (isOlderVersion && isCompatible.StartsWith("NEEDS_")) ? "CLOSED" : "OPEN";
+
+                    WorldResponse response = new()
+                    {
+                        Id = AllServers.Servers.IndexOf(world),
+                        Owner = "Owner",
+                        OwnerUUID = "069a79f444e94726a5befca90e38aaf5",
+                        Name = world.ServerName,
+                        Motd = world.Motd,
+                        State = isCompatibleOnOlderVersions,
+                        WorldType = "NORMAL",
+                        MaxPlayers = 10,
+                        MinigameId = null,
+                        MinigameName = null,
+                        MinigameImage = null,
+                        ActiveSlot = 1,
+                        Member = false,
+                        Players = [],
+                        DaysLeft = 0,
+                        Expired = false,
+                        ExpiredTrial = false,
+                        Compatibility = isCompatible,
+                        ActiveVersion = world.GameVersion
+                    };
+
+                    allWorlds.Add(response);
+                }
             }
 
             ServersResponse servers = new()
