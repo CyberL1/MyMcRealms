@@ -13,5 +13,6 @@ namespace MyMcRealms.MyMcAPI.Responses
         public string Connect { get; set; } = string.Empty;
         public string GameVersion { get; set; } = string.Empty;
         public string Motd { get; set; } = string.Empty;
+        public bool Online { get; set; }
     }
 }
