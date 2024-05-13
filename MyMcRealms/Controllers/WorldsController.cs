@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using MyMcRealms.Attributes;
 using MyMcRealms.Entities;
 using MyMcRealms.MyMcAPI.Responses;
