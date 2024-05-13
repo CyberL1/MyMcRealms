@@ -33,11 +33,14 @@ namespace MyMcRealms.Controllers
                     bool isOlderVersion = SemVersion.Parse(gameVerision, SemVersionStyles.OptionalPatch).ComparePrecedenceTo(SemVersion.Parse("1.20.3", SemVersionStyles.OptionalPatch)) < 0;
                     string isCompatibleOnOlderVersions = (isOlderVersion && isCompatible.StartsWith("NEEDS_")) ? "CLOSED" : "OPEN";
 
+                    string worldOwnerName = world.Ops.ToArray().Length == 0 ? "Owner" : world.Ops[0].Name;
+                    string worldOwnerUuid = world.Ops.ToArray().Length == 0 ? "069a79f444e94726a5befca90e38aaf5" : world.Ops[0].Uuid;
+
                     WorldResponse response = new()
                     {
                         Id = AllServers.Servers.IndexOf(world),
-                        Owner = world.Ops[0].Name,
-                        OwnerUUID = world.Ops[0].Uuid,
+                        Owner = worldOwnerName,
+                        OwnerUUID = worldOwnerUuid,
                         Name = world.ServerName,
                         Motd = world.Motd,
                         State = isCompatibleOnOlderVersions,
@@ -72,6 +75,30 @@ namespace MyMcRealms.Controllers
         {
             return NotFound("World not found");
         }
+
+//        [HttpPut("{id}/open")]
+//        public async Task<ActionResult<bool>> Open(int id)
+//        {
+//            var world = worlds.Find(w => w.Id == id);
+
+//            if (world == null) return NotFound("World not found");
+
+            // Turn off whitelist
+
+//            return Ok(true);
+//        }
+
+//        [HttpPut("{id}/close")]
+//        public async Task<ActionResult<bool>> Close(int id)
+//        {
+//            var world = worlds.FirstOrDefault(w => w.Id == id);
+
+//            if (world == null) return NotFound("World not found");
+
+            // Turn on whitelist
+
+//            return Ok(true);
+//        }
 
         [HttpGet("v1/{wId}/join/pc")]
         public async Task<ActionResult<ConnectionResponse>> Join(int wId)
