@@ -74,32 +74,79 @@ namespace MyMcRealms.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<WorldResponse>> GetWorldById(int id)
         {
-            return NotFound("World not found");
+            var worlds = await new MyMcAPI.MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY")).GetAllServers();
+            var world = worlds.Servers[id];
+
+            string worldOwnerName = world.Ops.ToArray().Length == 0 ? "Owner" : world.Ops[0].Name;
+            string worldOwnerUuid = world.Ops.ToArray().Length == 0 ? "069a79f444e94726a5befca90e38aaf5" : world.Ops[0].Uuid;
+            string worldName = world.Ops.ToArray().Length == 0 ? world.ServerName : $"{world.Ops[0].Name}'s server";
+            List<Player> whitelistedPlayers = [];
+
+            foreach (var player in world.Whitelist)
+            {
+                Player whitelistedPlayer = new()
+                {
+                    Name = player.Name,
+                    Uuid = player.Uuid,
+                    Accepted = true,
+                    Online = false,
+                    Operator = world.Ops.Find(p => p.Name == player.Name) != null,
+                    Permission = world.Ops.Find(p => p.Name == player.Name) != null ? "OPERATOR" : "MEMBER",
+                };
+
+                whitelistedPlayers.Add(whitelistedPlayer);
+            }
+
+            WorldResponse response = new()
+            {
+                Id = id,
+                Owner = worldOwnerName,
+                OwnerUUID = worldOwnerUuid,
+                Name = worldName,
+                Motd = world.Motd,
+                State = "OPEN",
+                WorldType = "NORMAL",
+                MaxPlayers = 10,
+                MinigameId = null,
+                MinigameName = null,
+                MinigameImage = null,
+                ActiveSlot = 1,
+                Member = false,
+                Players = whitelistedPlayers,
+                DaysLeft = 7,
+                Expired = false,
+                ExpiredTrial = false,
+                ActiveVersion = world.GameVersion
+            };
+
+            return Ok(response);
         }
 
-//        [HttpPut("{id}/open")]
-//        public async Task<ActionResult<bool>> Open(int id)
-//        {
-//            var world = worlds.Find(w => w.Id == id);
+        [HttpPut("{id}/open")]
+        public async Task<ActionResult<bool>> Open(int id)
+        {
+            var worlds = await new MyMcAPI.MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY")).GetAllServers();
+            var world = worlds.Servers[id];
 
-//            if (world == null) return NotFound("World not found");
+            if (world == null) return NotFound("World not found");
 
             // Turn off whitelist
 
-//            return Ok(true);
-//        }
+            return Ok(true);
+        }
 
-//        [HttpPut("{id}/close")]
-//        public async Task<ActionResult<bool>> Close(int id)
-//        {
-//            var world = worlds.FirstOrDefault(w => w.Id == id);
+        [HttpPut("{id}/close")]
+        public async Task<ActionResult<bool>> Close(int id)
+        {
+            var worlds = await new MyMcAPI.MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY")).GetAllServers();
+            var world = worlds.Servers[id];
 
-//            if (world == null) return NotFound("World not found");
+            if (world == null) return NotFound("World not found");
 
             // Turn on whitelist
 
-//            return Ok(true);
-//        }
+            return Ok(true);
+        }
 
         [HttpGet("v1/{wId}/join/pc")]
         public async Task<ActionResult<ConnectionResponse>> Join(int wId)
