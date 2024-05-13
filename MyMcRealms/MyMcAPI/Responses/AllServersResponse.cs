@@ -3,7 +3,7 @@
     public class AllServersResponse
     {
         public bool Success { get; set; }
-        public List<Server> Servers { get; set; }
+        public List<Server> Servers { get; set; } = null!;
     }
 
     public class Server
@@ -13,15 +13,8 @@
         public string GameVersion { get; set; } = string.Empty;
         public string Motd { get; set; } = string.Empty;
         public bool Online { get; set; }
-        public List<UserCache> UserCache { get; set; } = null!;
         public List<Op> Ops { get; set; } = null!;
-    }
-
-    public class UserCache
-    {
-        public string Name { get; set; } = null!;
-        public string Uuid { get; set; } = null!;
-        public string ExpiresOn { get; set; } = null!;
+        public List<Ban> Banlist { get; set; }
     }
 
     public class Op
@@ -30,5 +23,21 @@
         public string Name { get; set; } = null!;
         public int Level { get; set; }
         public bool BypassesPlayerLimit { get; set; }
+    }
+
+    public class Ban
+    {
+        public string Uuid { get; set; } = null!;
+        public string Name { get; set; } = null!;
+        public string Created { get; set; } = null!;
+        public string Source { get; set; } = null!;
+        public string Expires { get; set; } = null!;
+        public string Reason { get; set; } = null!;
+    }
+
+    public class Whitelist
+    {
+        public string Uuid { get; set; } = null!;
+        public string Name { get; set; } = null!;
     }
 }
