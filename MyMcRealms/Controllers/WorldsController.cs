@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyMcRealms.Attributes;
-using MyMcRealms.Data;
 using MyMcRealms.Entities;
 using MyMcRealms.MyMcAPI.Responses;
 using MyMcRealms.Responses;
@@ -14,13 +13,6 @@ namespace MyMcRealms.Controllers
     [RequireMinecraftCookie]
     public class WorldsController : ControllerBase
     {
-        private readonly DataContext _context;
-
-        public WorldsController(DataContext context)
-        {
-            _context = context;
-        }
-
         [HttpGet]
         public async Task<ActionResult<ServersResponse>> GetWorlds()
         {
@@ -57,7 +49,6 @@ namespace MyMcRealms.Controllers
                         MinigameImage = null,
                         ActiveSlot = 1,
                         Member = false,
-                        Players = [],
                         DaysLeft = 7,
                         Expired = false,
                         ExpiredTrial = false,
@@ -80,36 +71,11 @@ namespace MyMcRealms.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<WorldResponse>> GetWorldById(int id)
         {
-            var world = await _context.Worlds.Include(w => w.Players).Include(w => w.Subscription).FirstOrDefaultAsync(w => w.Id == id);
-
-            if (world?.Subscription == null) return NotFound("World not found");
-
-            WorldResponse response = new()
-            {
-                Id = world.Id,
-                Owner = world.Owner,
-                OwnerUUID = world.OwnerUUID,
-                Name = world.Name,
-                Motd = world.Motd,
-                State = world.State,
-                WorldType = world.WorldType,
-                MaxPlayers = world.MaxPlayers,
-                MinigameId = world.MinigameId,
-                MinigameName = world.MinigameName,
-                MinigameImage = world.MinigameImage,
-                ActiveSlot = world.ActiveSlot,
-                Member = world.Member,
-                Players = world.Players,
-                DaysLeft = ((DateTimeOffset)world.Subscription.StartDate.AddDays(30) - DateTime.Today).Days,
-                Expired = ((DateTimeOffset)world.Subscription.StartDate.AddDays(30) - DateTime.Today).Days < 0,
-                ExpiredTrial = false
-            };
-
-            return response;
+            return NotFound("World not found");
         }
 
         [HttpGet("v1/{wId}/join/pc")]
-        public async Task<ActionResult<Connection>> Join(int wId)
+        public async Task<ActionResult<ConnectionResponse>> Join(int wId)
         {
             AllServersResponse AllServers = await new MyMcAPI.MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY")).GetAllServers();
 

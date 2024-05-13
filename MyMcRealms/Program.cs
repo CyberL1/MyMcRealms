@@ -1,18 +1,8 @@
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
-using MyMcRealms.Data;
-using MyMcRealms.Helpers;
 using MyMcRealms.Middlewares;
-using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
 DotNetEnv.Env.Load();
-
-if (Environment.GetEnvironmentVariable("CONNECTION_STRING") == null)
-{
-    Console.WriteLine("CONNECTION_STRING environment variable missing");
-    return;
-}
 
 if (Environment.GetEnvironmentVariable("MYMC_API_KEY") == null)
 {
@@ -28,19 +18,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDirectoryBrowser();
 
-var dataSourceBuilder = new NpgsqlDataSourceBuilder(Environment.GetEnvironmentVariable("CONNECTION_STRING"));
-dataSourceBuilder.EnableDynamicJson();
-var dataSource = dataSourceBuilder.Build();
-
-builder.Services.AddDbContext<DataContext>(options =>
-{
-    options.UseNpgsql(dataSource);
-});
-
 var app = builder.Build();
-
-// Initialize database
-Database.Initialize(app);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
