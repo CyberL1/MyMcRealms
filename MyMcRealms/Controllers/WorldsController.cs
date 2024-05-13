@@ -37,8 +37,8 @@ namespace MyMcRealms.Controllers
                     WorldResponse response = new()
                     {
                         Id = AllServers.Servers.IndexOf(world),
-                        Owner = "Owner",
-                        OwnerUUID = "069a79f444e94726a5befca90e38aaf5",
+                        Owner = world.Ops[0].Name,
+                        OwnerUUID = world.Ops[0].Uuid,
                         Name = world.ServerName,
                         Motd = world.Motd,
                         State = isCompatibleOnOlderVersions,
