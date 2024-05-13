@@ -25,5 +25,21 @@ namespace MyMcRealms.MyMcAPI
 
             return response;
         }
+
+        public HttpResponseMessage? ExecuteCommand(string command)
+        {
+            string json = $"{{ \"command\": \"{command}\" }}";
+
+            StringContent content = new(json, System.Text.Encoding.UTF8, "application/json");
+            var response = httpClient.PostAsync("console", content).Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("error while doing POST /console");
+                return null;
+            }
+
+            return response;
+        }
     }
 }

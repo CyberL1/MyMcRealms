@@ -15,6 +15,7 @@
         public bool Online { get; set; }
         public List<Op> Ops { get; set; } = null!;
         public List<Ban> Banlist { get; set; } = null!;
+        public List<Whitelist> Whitelist { get; set; } = null!;
         public string OwnersToken { get; set; } = string.Empty;
     }
 
