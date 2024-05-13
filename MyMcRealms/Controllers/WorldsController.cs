@@ -62,7 +62,7 @@ namespace MyMcRealms.Controllers
                         ActiveSlot = 1,
                         Member = false,
                         Players = [],
-                        DaysLeft = 0,
+                        DaysLeft = 7,
                         Expired = false,
                         ExpiredTrial = false,
                         Compatibility = isCompatible,
