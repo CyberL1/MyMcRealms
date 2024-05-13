@@ -4,9 +4,7 @@ using MyMcRealms.Attributes;
 using MyMcRealms.Data;
 using MyMcRealms.Entities;
 using MyMcRealms.MyMcAPI.Responses;
-using MyMcRealms.Requests;
 using MyMcRealms.Responses;
-using Newtonsoft.Json;
 using Semver;
 
 namespace MyMcRealms.Controllers
@@ -28,8 +26,6 @@ namespace MyMcRealms.Controllers
         {
             string cookie = Request.Headers.Cookie;
 
-            string playerUUID = cookie.Split(";")[0].Split(":")[2];
-            string playerName = cookie.Split(";")[1].Split("=")[1];
             string gameVerision = cookie.Split(";")[2].Split("=")[1];
 
             List<WorldResponse> allWorlds = [];
@@ -110,121 +106,6 @@ namespace MyMcRealms.Controllers
             };
 
             return response;
-        }
-
-        [HttpPost("{id}/initialize")]
-        public async Task<ActionResult<World>> Initialize(int id, WorldCreateRequest body)
-        {
-            var worlds = await _context.Worlds.ToListAsync();
-
-            var world = worlds.Find(w => w.Id == id);
-
-            if (world == null) return NotFound("World not found");
-            if (world.State != "UNINITIALIZED") return NotFound("World already initialized");
-
-            var subscription = new Subscription
-            {
-                StartDate = DateTime.UtcNow,
-                SubscriptionType = "NORMAL"
-            };
-
-            world.Name = body.Name;
-            world.Motd = body.Description;
-            world.State = "OPEN";
-            world.Subscription = subscription;
-
-            var defaultServerAddress = _context.Configuration.FirstOrDefault(x => x.Key == "defaultServerAddress");
-
-            var connection = new Connection
-            {
-                World = world,
-                Address = JsonConvert.DeserializeObject(defaultServerAddress.Value)
-            };
-
-            _context.Worlds.Update(world);
-
-            _context.Subscriptions.Add(subscription);
-            _context.Connections.Add(connection);
-
-            _context.SaveChanges();
-
-            return Ok(world);
-        }
-
-        [HttpPost("{id}/reset")]
-        public ActionResult<bool> Reset(int id)
-        {
-            Console.WriteLine($"Resetting world {id}");
-            return Ok(true);
-        }
-
-        [HttpPut("{id}/open")]
-        public async Task<ActionResult<bool>> Open(int id)
-        {
-            var worlds = await _context.Worlds.ToListAsync();
-
-            var world = worlds.Find(w => w.Id == id);
-
-            if (world == null) return NotFound("World not found");
-
-            world.State = "OPEN";
-
-            _context.SaveChanges();
-
-            return Ok(true);
-        }
-
-        [HttpPut("{id}/close")]
-        public async Task<ActionResult<bool>> Close(int id)
-        {
-            var worlds = await _context.Worlds.ToListAsync();
-
-            var world = worlds.FirstOrDefault(w => w.Id == id);
-
-            if (world == null) return NotFound("World not found");
-
-            world.State = "CLOSED";
-
-            _context.SaveChanges();
-
-            return Ok(true);
-        }
-
-        [HttpPost("{id}")]
-        public async Task<ActionResult<bool>> UpdateWorld(int id, WorldCreateRequest body)
-        {
-            var worlds = await _context.Worlds.ToListAsync();
-
-            var world = worlds.Find(w => w.Id == id);
-
-            if (world == null) return NotFound("World not found");
-
-            world.Name = body.Name;
-            world.Motd = body.Description;
-
-            _context.SaveChanges();
-
-            return Ok(true);
-        }
-
-        [HttpPost("{wId}/slot/{sId}")]
-        public bool U(int wId, int sId, object o)
-        {
-            Console.WriteLine(o);
-            return true;
-        }
-
-        [HttpGet("{Id}/backups")]
-        public async Task<ActionResult<BackupsResponse>> GetBackups(int id)
-        {
-            var backups = await _context.Backups.Where(b => b.World.Id == id).ToListAsync();
-
-            BackupsResponse worldBackups = new()
-            {
-                Backups = backups
-            };
-
-            return Ok(worldBackups);
         }
 
         [HttpGet("v1/{wId}/join/pc")]
