@@ -17,6 +17,8 @@ namespace MyMcRealms.Controllers
         {
             string cookie = Request.Headers.Cookie;
 
+            string playerUUID = cookie.Split(";")[0].Split(":")[2];
+            string playerName = cookie.Split(";")[1].Split("=")[1];
             string gameVerision = cookie.Split(";")[2].Split("=")[1];
 
             List<WorldResponse> allWorlds = [];
@@ -27,6 +29,11 @@ namespace MyMcRealms.Controllers
             {
                 if (world.Online)
                 {
+                    if (world.WhitelistEnable && !(world.Whitelist.Any(p => p.Uuid.Replace("-", "") == playerUUID) || world.Ops.Any(p => p.Uuid.Replace("-", "") == playerUUID)))
+                    {
+                        continue;
+                    }
+
                     int versionsCompared = SemVersion.Parse(gameVerision, SemVersionStyles.OptionalPatch).ComparePrecedenceTo(SemVersion.Parse(world.GameVersion, SemVersionStyles.OptionalPatch));
                     string isCompatible = versionsCompared == 0 ? "COMPATIBLE" : versionsCompared < 0 ? "NEEDS_DOWNGRADE" : "NEEDS_UPGRADE";
 
@@ -63,7 +70,7 @@ namespace MyMcRealms.Controllers
                 }
             }
 
-            ServersResponse servers = new()
+                ServersResponse servers = new()
             {
                 Servers = allWorlds
             };
