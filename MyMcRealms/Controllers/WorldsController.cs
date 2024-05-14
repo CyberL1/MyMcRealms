@@ -125,12 +125,14 @@ namespace MyMcRealms.Controllers
         [HttpPut("{id}/open")]
         public async Task<ActionResult<bool>> Open(int id)
         {
-            var worlds = await new MyMcAPI.MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY")).GetAllServers();
-            var world = worlds.Servers[id];
+            var _api = new MyMcAPI.MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
+
+            var world = (await _api.GetAllServers()).Servers[id];
+            var api = new MyMcAPI.MyMcAPI(world.OwnersToken);
 
             if (world == null) return NotFound("World not found");
 
-            // Turn off whitelist
+            api.ExecuteCommand("whitelist off");
 
             return Ok(true);
         }
@@ -138,12 +140,14 @@ namespace MyMcRealms.Controllers
         [HttpPut("{id}/close")]
         public async Task<ActionResult<bool>> Close(int id)
         {
-            var worlds = await new MyMcAPI.MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY")).GetAllServers();
-            var world = worlds.Servers[id];
+            var _api = new MyMcAPI.MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
+
+            var world = (await _api.GetAllServers()).Servers[id];
+            var api = new MyMcAPI.MyMcAPI(world.OwnersToken);
 
             if (world == null) return NotFound("World not found");
 
-            // Turn on whitelist
+            api.ExecuteCommand("whitelist on");
 
             return Ok(true);
         }

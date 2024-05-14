@@ -13,9 +13,10 @@ namespace Minecraft_Realms_Emulator.Controllers
         [HttpPost("{wId}/{uuid}")]
         public async Task<ActionResult<OpsResponse>> OpPlayer(int wId, string uuid)
         {
-            var api = new MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
-            var world = (await api.GetAllServers()).Servers[wId];
-            
+            var _api = new MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
+            var world = (await _api.GetAllServers()).Servers[wId];
+            var api = new MyMcAPI(world.OwnersToken);
+
             var ops = world.Ops;
             var player = world.Whitelist.Find(p => p.Uuid.Replace("-", "") == uuid);
 
@@ -40,8 +41,9 @@ namespace Minecraft_Realms_Emulator.Controllers
         [HttpDelete("{wId}/{uuid}")]
         public async Task<ActionResult<OpsResponse>> DeopPlayerAsync(int wId, string uuid)
         {
-            var api = new MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
-            var world = (await api.GetAllServers()).Servers[wId];
+            var _api = new MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
+            var world = (await _api.GetAllServers()).Servers[wId];
+            var api = new MyMcAPI(world.OwnersToken);
 
             var ops = world.Ops;
             var player = world.Whitelist.Find(p => p.Uuid.Replace("-", "") == uuid);
