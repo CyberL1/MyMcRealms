@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyMcRealms.Attributes;
-using MyMcRealms.Entities;
 using MyMcRealms.MyMcAPI.Responses;
 using MyMcRealms.Responses;
 using Semver;

@@ -1,6 +1,4 @@
-﻿using MyMcRealms.Entities;
-
-namespace MyMcRealms.Responses
+﻿namespace MyMcRealms.Responses
 {
     public class ServersResponse
     {
