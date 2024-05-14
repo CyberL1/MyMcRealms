@@ -104,7 +104,7 @@ namespace MyMcRealms.Controllers
                 OwnerUUID = worldOwnerUuid,
                 Name = worldName,
                 Motd = world.Motd,
-                State = "OPEN",
+                State = world.WhitelistEnable ? "CLOSED" : "OPEN",
                 WorldType = "NORMAL",
                 MaxPlayers = 10,
                 MinigameId = null,
