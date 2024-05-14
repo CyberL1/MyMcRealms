@@ -38,7 +38,9 @@ namespace MyMcRealms.Controllers
                     string isCompatible = versionsCompared == 0 ? "COMPATIBLE" : versionsCompared < 0 ? "NEEDS_DOWNGRADE" : "NEEDS_UPGRADE";
 
                     bool isOlderVersion = SemVersion.Parse(gameVerision, SemVersionStyles.OptionalPatch).ComparePrecedenceTo(SemVersion.Parse("1.20.3", SemVersionStyles.OptionalPatch)) < 0;
-                    string isCompatibleOnOlderVersions = (isOlderVersion && isCompatible.StartsWith("NEEDS_")) ? "CLOSED" : "OPEN";
+                    bool isCompatibleOnOlderVersions = (isOlderVersion && isCompatible.StartsWith("NEEDS_"));
+
+                    bool isBanned = world.Banlist.Any(p => p.Name == playerName);
 
                     string worldOwnerName = world.Ops.ToArray().Length == 0 ? "Owner" : world.Ops[0].Name;
                     string worldOwnerUuid = world.Ops.ToArray().Length == 0 ? "069a79f444e94726a5befca90e38aaf5" : world.Ops[0].Uuid;
@@ -51,7 +53,7 @@ namespace MyMcRealms.Controllers
                         OwnerUUID = worldOwnerUuid,
                         Name = worldName,
                         Motd = world.Motd,
-                        State = isCompatibleOnOlderVersions,
+                        State = isCompatibleOnOlderVersions || !isBanned ? "OPEN" : "CLOSED",
                         WorldType = "NORMAL",
                         MaxPlayers = 10,
                         MinigameId = null,
