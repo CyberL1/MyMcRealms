@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace MyMcRealms.Entities
+namespace MyMcRealms.Responses
 {
     public class WorldResponse
     {
