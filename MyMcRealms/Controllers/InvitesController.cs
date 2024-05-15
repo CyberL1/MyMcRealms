@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Minecraft_Realms_Emulator.Responses;
-using MyMcRealms.Attributes;
-using MyMcRealms.MyMcAPI;
-using MyMcRealms.Requests;
 using MyMcRealms.Responses;
+using MyMcRealms.Attributes;
+using MyMcRealms.Requests;
 
-namespace Minecraft_Realms_Emulator.Controllers
+namespace MyMcRealms.Controllers
 {
     [Route("[controller]")]
     [ApiController]
@@ -20,7 +18,7 @@ namespace Minecraft_Realms_Emulator.Controllers
 
             if (body.Name == playerName) return Forbid("You cannot invite yourself");
 
-            var _api = new MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
+            var _api = new MyMcAPI.Wrapper(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
             var world = (await _api.GetAllServers()).Servers[wId];
 
             if (world == null) return NotFound("World not found");
@@ -30,7 +28,7 @@ namespace Minecraft_Realms_Emulator.Controllers
 
             if (world.Whitelist.Any(p => p.Name == body.Name)) return BadRequest("Player already whitelisted");
 
-            var api = new MyMcAPI(world.OwnersToken);
+            var api = new MyMcAPI.Wrapper(world.OwnersToken);
             api.ExecuteCommand($"whitelist add {body.Name}");
 
             List<Player> whitelistedPlayers = [];
@@ -90,7 +88,7 @@ namespace Minecraft_Realms_Emulator.Controllers
         [HttpDelete("{wId}/invite/{uuid}")]
         public async Task<ActionResult<bool>> DeleteInvite(int wId, string uuid)
         {
-            var _api = new MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
+            var _api = new MyMcAPI.Wrapper(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
             var world = (await _api.GetAllServers()).Servers[wId];
 
             if (world == null) return NotFound("World not found");
@@ -102,7 +100,7 @@ namespace Minecraft_Realms_Emulator.Controllers
 
             if (!world.Whitelist.Any(p => p.Uuid.Replace("-", "") == uuid)) return BadRequest("Player not whitelisted");
 
-            var api = new MyMcAPI(world.OwnersToken);
+            var api = new MyMcAPI.Wrapper(world.OwnersToken);
             api.ExecuteCommand($"whitelist remove {player.Name}");
 
             return Ok(true);

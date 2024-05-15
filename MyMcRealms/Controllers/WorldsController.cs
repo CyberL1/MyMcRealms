@@ -22,7 +22,7 @@ namespace MyMcRealms.Controllers
 
             List<WorldResponse> allWorlds = [];
 
-            AllServersResponse AllServers = await new MyMcAPI.MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY")).GetAllServers();
+            AllServersResponse AllServers = await new MyMcAPI.Wrapper(Environment.GetEnvironmentVariable("MYMC_API_KEY")).GetAllServers();
 
             foreach (var world in AllServers.Servers)
             {
@@ -83,7 +83,7 @@ namespace MyMcRealms.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<WorldResponse>> GetWorldById(int id)
         {
-            var worlds = await new MyMcAPI.MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY")).GetAllServers();
+            var worlds = await new MyMcAPI.Wrapper(Environment.GetEnvironmentVariable("MYMC_API_KEY")).GetAllServers();
             var world = worlds.Servers[id];
 
             string worldOwnerName = world.Ops.ToArray().Length == 0 ? "Owner" : world.Ops[0].Name;
@@ -134,10 +134,10 @@ namespace MyMcRealms.Controllers
         [HttpPut("{id}/open")]
         public async Task<ActionResult<bool>> Open(int id)
         {
-            var _api = new MyMcAPI.MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
+            var _api = new MyMcAPI.Wrapper(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
 
             var world = (await _api.GetAllServers()).Servers[id];
-            var api = new MyMcAPI.MyMcAPI(world.OwnersToken);
+            var api = new MyMcAPI.Wrapper(world.OwnersToken);
 
             if (world == null) return NotFound("World not found");
 
@@ -149,10 +149,10 @@ namespace MyMcRealms.Controllers
         [HttpPut("{id}/close")]
         public async Task<ActionResult<bool>> Close(int id)
         {
-            var _api = new MyMcAPI.MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
+            var _api = new MyMcAPI.Wrapper(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
 
             var world = (await _api.GetAllServers()).Servers[id];
-            var api = new MyMcAPI.MyMcAPI(world.OwnersToken);
+            var api = new MyMcAPI.Wrapper(world.OwnersToken);
 
             if (world == null) return NotFound("World not found");
 
@@ -164,7 +164,7 @@ namespace MyMcRealms.Controllers
         [HttpGet("v1/{wId}/join/pc")]
         public async Task<ActionResult<ConnectionResponse>> Join(int wId)
         {
-            AllServersResponse AllServers = await new MyMcAPI.MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY")).GetAllServers();
+            AllServersResponse AllServers = await new MyMcAPI.Wrapper(Environment.GetEnvironmentVariable("MYMC_API_KEY")).GetAllServers();
 
             ConnectionResponse connection = new()
             {
