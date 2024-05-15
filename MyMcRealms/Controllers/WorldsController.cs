@@ -89,11 +89,11 @@ namespace MyMcRealms.Controllers
             string worldOwnerName = world.Ops.ToArray().Length == 0 ? "Owner" : world.Ops[0].Name;
             string worldOwnerUuid = world.Ops.ToArray().Length == 0 ? "069a79f444e94726a5befca90e38aaf5" : world.Ops[0].Uuid;
             string worldName = world.Ops.ToArray().Length == 0 ? world.ServerName : $"{world.Ops[0].Name}'s server";
-            List<Player> whitelistedPlayers = [];
+            List<PlayerResponse> whitelistedPlayers = [];
 
             foreach (var player in world.Whitelist)
             {
-                Player whitelistedPlayer = new()
+                PlayerResponse whitelistedPlayer = new()
                 {
                     Name = player.Name,
                     Uuid = player.Uuid,

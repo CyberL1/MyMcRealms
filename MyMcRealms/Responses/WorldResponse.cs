@@ -12,7 +12,7 @@ namespace MyMcRealms.Responses
         public string? Motd { get; set; }
         public string State { get; set; } = "OPEN";
         public string WorldType { get; set; } = "NORMAL";
-        public List<Player> Players { get; set; } = [];
+        public List<PlayerResponse> Players { get; set; } = [];
         public int MaxPlayers { get; set; } = 10;
         public string? MinigameName { get; set; }
         public int? MinigameId { get; set; }
@@ -26,15 +26,5 @@ namespace MyMcRealms.Responses
         public bool ExpiredTrial { get; set; } = false;
         public string Compatibility { get; set; } = string.Empty;
         public string ActiveVersion { get; set; } = string.Empty;
-    }
-
-    public class Player
-    {
-        public string Name { get; set; } = string.Empty;
-        public string Uuid { get; set; } = string.Empty;
-        public bool Operator { get; set; }
-        public bool Accepted { get; set; }
-        public bool Online { get; set; }
-        public string Permission { get; set; } = "MEMBER";
     }
 }

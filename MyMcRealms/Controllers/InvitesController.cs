@@ -24,18 +24,18 @@ namespace MyMcRealms.Controllers
             if (world == null) return NotFound("World not found");
 
             // Get player name
-            var playerInfo = await new HttpClient().GetFromJsonAsync<MinecraftPlayerInfo>($"https://api.mojang.com/users/profiles/minecraft/{body.Name}");
+            var playerInfo = await new HttpClient().GetFromJsonAsync<MinecraftPlayerResponse>($"https://api.mojang.com/users/profiles/minecraft/{body.Name}");
 
             if (world.Whitelist.Any(p => p.Name == body.Name)) return BadRequest("Player already whitelisted");
 
             var api = new MyMcAPI.Wrapper(world.OwnersToken);
             api.ExecuteCommand($"whitelist add {body.Name}");
 
-            List<Player> whitelistedPlayers = [];
+            List<PlayerResponse> whitelistedPlayers = [];
 
             foreach (var player in world.Whitelist)
             {
-                Player whitelistedPlayer = new()
+                PlayerResponse whitelistedPlayer = new()
                 {
                     Name = player.Name,
                     Uuid = player.Uuid,
@@ -48,7 +48,7 @@ namespace MyMcRealms.Controllers
                 whitelistedPlayers.Add(whitelistedPlayer);
             }
 
-            Player npl = new()
+            PlayerResponse npl = new()
             {
                 Name = body.Name,
                 Uuid = playerInfo.Id,
@@ -96,7 +96,7 @@ namespace MyMcRealms.Controllers
             var player = world.Whitelist.Find(p => p.Uuid.Replace("-", "") == uuid);
 
             // Get player name
-            var playerInfo = await new HttpClient().GetFromJsonAsync<MinecraftPlayerInfo>($"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}");
+            var playerInfo = await new HttpClient().GetFromJsonAsync<MinecraftPlayerResponse>($"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}");
 
             if (!world.Whitelist.Any(p => p.Uuid.Replace("-", "") == uuid)) return BadRequest("Player not whitelisted");
 
