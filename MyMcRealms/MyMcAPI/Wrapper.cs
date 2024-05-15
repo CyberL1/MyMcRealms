@@ -15,7 +15,7 @@ namespace MyMcRealms.MyMcAPI
 
         public async Task<AllServersResponse?> GetAllServers()
         {
-            AllServersResponse response = await httpClient.GetFromJsonAsync<AllServersResponse>($"list_all_servers/{Environment.GetEnvironmentVariable("MYMC_SERVER_LIST_KEY")}");
+            AllServersResponse? response = await httpClient.GetFromJsonAsync<AllServersResponse>($"list_all_servers/{Environment.GetEnvironmentVariable("MYMC_SERVER_LIST_KEY")}");
             
             if (response == null)
             {
