@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Minecraft_Realms_Emulator.Responses;
+using MyMcRealms.Responses;
 using MyMcRealms.Attributes;
-using MyMcRealms.MyMcAPI;
 
-namespace Minecraft_Realms_Emulator.Controllers
+namespace MyMcRealms.Controllers
 {
     [Route("[controller]")]
     [ApiController]
@@ -13,9 +12,9 @@ namespace Minecraft_Realms_Emulator.Controllers
         [HttpPost("{wId}/{uuid}")]
         public async Task<ActionResult<OpsResponse>> OpPlayer(int wId, string uuid)
         {
-            var _api = new MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
+            var _api = new MyMcAPI.Wrapper(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
             var world = (await _api.GetAllServers()).Servers[wId];
-            var api = new MyMcAPI(world.OwnersToken);
+            var api = new MyMcAPI.Wrapper(world.OwnersToken);
 
             var ops = world.Ops;
             var player = world.Whitelist.Find(p => p.Uuid.Replace("-", "") == uuid);
@@ -41,9 +40,9 @@ namespace Minecraft_Realms_Emulator.Controllers
         [HttpDelete("{wId}/{uuid}")]
         public async Task<ActionResult<OpsResponse>> DeopPlayerAsync(int wId, string uuid)
         {
-            var _api = new MyMcAPI(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
+            var _api = new MyMcAPI.Wrapper(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
             var world = (await _api.GetAllServers()).Servers[wId];
-            var api = new MyMcAPI(world.OwnersToken);
+            var api = new MyMcAPI.Wrapper(world.OwnersToken);
 
             var ops = world.Ops;
             var player = world.Whitelist.Find(p => p.Uuid.Replace("-", "") == uuid);

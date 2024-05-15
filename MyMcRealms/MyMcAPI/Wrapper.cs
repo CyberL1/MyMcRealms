@@ -2,12 +2,12 @@
 
 namespace MyMcRealms.MyMcAPI
 {
-    public class MyMcAPI
+    public class Wrapper
     {
         private readonly string ApiUrl = "https://api.my-mc.link";
         private readonly HttpClient httpClient = new();
 
-        public MyMcAPI(string apiKey)
+        public Wrapper(string apiKey)
         {
             httpClient.DefaultRequestHeaders.Add("x-my-mc-auth", apiKey);
             httpClient.BaseAddress = new Uri(ApiUrl);
