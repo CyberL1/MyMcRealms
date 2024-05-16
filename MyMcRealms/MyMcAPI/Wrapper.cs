@@ -15,15 +15,18 @@ namespace MyMcRealms.MyMcAPI
 
         public async Task<AllServersResponse?> GetAllServers()
         {
-            AllServersResponse? response = await httpClient.GetFromJsonAsync<AllServersResponse>($"list_all_servers/{Environment.GetEnvironmentVariable("MYMC_SERVER_LIST_KEY")}");
-            
-            if (response == null)
+            try
+            {
+                AllServersResponse? response = await httpClient.GetFromJsonAsync<AllServersResponse>($"list_all_servers/{Environment.GetEnvironmentVariable("MYMC_SERVER_LIST_KEY")}");
+
+                return response;
+            }
+            catch (Exception e)
             {
                 Console.WriteLine("error while doing GET /list_all_servers");
+                Console.WriteLine(e.Message);
                 return null;
             }
-
-            return response;
         }
 
         public HttpResponseMessage? ExecuteCommand(string command)
