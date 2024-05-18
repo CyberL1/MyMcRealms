@@ -105,5 +105,11 @@ namespace MyMcRealms.Controllers
 
             return Ok(true);
         }
+
+        [HttpDelete("{wId}")]
+        public ActionResult<string> LeaveRealms(int wId)
+        {
+            return BadRequest("You wish lmao");
+        }
     }
 }

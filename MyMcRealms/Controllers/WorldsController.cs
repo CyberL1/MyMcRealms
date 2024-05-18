@@ -131,6 +131,18 @@ namespace MyMcRealms.Controllers
             return Ok(response);
         }
 
+        [HttpPost("{wId}")]
+        public ActionResult<string> UpdateRealms(int wId)
+        {
+            return BadRequest("You can change the MOTD trough server.properties file");
+        }
+
+        [HttpPost("{wId}/reset")]
+        public ActionResult<string> ChangeSlot(int id)
+        {
+            return BadRequest("lol nice try");
+        }
+
         [HttpPut("{id}/open")]
         public async Task<ActionResult<bool>> Open(int id)
         {
@@ -159,6 +171,18 @@ namespace MyMcRealms.Controllers
             api.ExecuteCommand("whitelist on");
 
             return Ok(true);
+        }
+
+        [HttpPost("{wId}/slot/{sId}")]
+        public ActionResult<string> UpdateSlot(int wId, int sId)
+        {
+            return BadRequest("no.");
+        }
+
+        [HttpGet("{wId}/slot/{sId}/download")]
+        public ActionResult<string> GetBackups(int wId, int sId)
+        {
+            return BadRequest("Wouldn't it be nice if you could download your world to singleplayer? Well I think that too");
         }
 
         [HttpGet("v1/{wId}/join/pc")]
