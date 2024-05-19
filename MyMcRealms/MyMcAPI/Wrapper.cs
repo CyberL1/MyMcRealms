@@ -44,5 +44,21 @@ namespace MyMcRealms.MyMcAPI
 
             return response;
         }
+
+        public async Task<WhitelistReponse?> GetWhitelist()
+        {
+            try
+            {
+                WhitelistReponse? response = await httpClient.GetFromJsonAsync<WhitelistReponse>($"whitelist");
+
+                return response;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error while doing GET /whitelist");
+                Console.WriteLine(e.Message);
+                return null;
+            }
+        }
     }
 }

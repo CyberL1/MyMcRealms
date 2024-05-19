@@ -14,10 +14,12 @@ namespace MyMcRealms.Controllers
         {
             var _api = new MyMcAPI.Wrapper(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
             var world = (await _api.GetAllServers()).Servers[wId];
+            
             var api = new MyMcAPI.Wrapper(world.OwnersToken);
+            var whitelist = await api.GetWhitelist();
 
-            var ops = world.Ops;
-            var player = world.Whitelist.Find(p => p.Uuid.Replace("-", "") == uuid);
+            var ops = whitelist.Ops;
+            var player = whitelist.Result.Find(p => p.Uuid.Replace("-", "") == uuid);
 
             List<string> opNames = [];
 
@@ -42,10 +44,12 @@ namespace MyMcRealms.Controllers
         {
             var _api = new MyMcAPI.Wrapper(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
             var world = (await _api.GetAllServers()).Servers[wId];
-            var api = new MyMcAPI.Wrapper(world.OwnersToken);
 
-            var ops = world.Ops;
-            var player = world.Whitelist.Find(p => p.Uuid.Replace("-", "") == uuid);
+            var api = new MyMcAPI.Wrapper(world.OwnersToken);
+            var whitelist = await api.GetWhitelist();
+
+            var ops = whitelist.Ops;
+            var player = whitelist.Result.Find(p => p.Uuid.Replace("-", "") == uuid);
 
             List<string> opNames = [];
 
