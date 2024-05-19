@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyMcRealms.Attributes;
 using MyMcRealms.Responses;
-using Newtonsoft.Json;
 
 namespace MyMcRealms.Controllers
 {
