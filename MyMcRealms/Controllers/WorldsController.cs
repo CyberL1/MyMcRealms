@@ -83,15 +83,18 @@ namespace MyMcRealms.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<WorldResponse>> GetWorldById(int id)
         {
-            var worlds = await new MyMcAPI.Wrapper(Environment.GetEnvironmentVariable("MYMC_API_KEY")).GetAllServers();
-            var world = worlds.Servers[id];
+            var _api = new MyMcAPI.Wrapper(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
+
+            var world = (await _api.GetAllServers()).Servers[id];
+            var api = new MyMcAPI.Wrapper(world.OwnersToken);
+            var whitelist = await api.GetWhitelist();
 
             string worldOwnerName = world.Ops.ToArray().Length == 0 ? "Owner" : world.Ops[0].Name;
             string worldOwnerUuid = world.Ops.ToArray().Length == 0 ? "069a79f444e94726a5befca90e38aaf5" : world.Ops[0].Uuid;
             string worldName = world.Ops.ToArray().Length == 0 ? world.ServerName : $"{world.Ops[0].Name}'s server";
             List<PlayerResponse> whitelistedPlayers = [];
 
-            foreach (var player in world.Whitelist)
+            foreach (var player in whitelist.Result)
             {
                 PlayerResponse whitelistedPlayer = new()
                 {
@@ -99,8 +102,8 @@ namespace MyMcRealms.Controllers
                     Uuid = player.Uuid,
                     Accepted = true,
                     Online = false,
-                    Operator = world.Ops.Find(p => p.Name == player.Name) != null,
-                    Permission = world.Ops.Find(p => p.Name == player.Name) != null ? "OPERATOR" : "MEMBER",
+                    Operator = whitelist.Ops.Find(p => p.Name == player.Name) != null,
+                    Permission = whitelist.Ops.Find(p => p.Name == player.Name) != null ? "OPERATOR" : "MEMBER",
                 };
 
                 whitelistedPlayers.Add(whitelistedPlayer);
@@ -113,7 +116,7 @@ namespace MyMcRealms.Controllers
                 OwnerUUID = worldOwnerUuid,
                 Name = worldName,
                 Motd = world.Motd,
-                State = world.WhitelistEnable ? "CLOSED" : "OPEN",
+                State = whitelist.Enabled ? "CLOSED" : "OPEN",
                 WorldType = "NORMAL",
                 MaxPlayers = 10,
                 MinigameId = null,

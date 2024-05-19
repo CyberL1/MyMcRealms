@@ -22,18 +22,20 @@ namespace MyMcRealms.Controllers
             var world = (await _api.GetAllServers()).Servers[wId];
 
             if (world == null) return NotFound("World not found");
+            
+            var api = new MyMcAPI.Wrapper(world.OwnersToken);
+            var whitelist = await api.GetWhitelist();
 
             // Get player name
             var playerInfo = await new HttpClient().GetFromJsonAsync<MinecraftPlayerResponse>($"https://api.mojang.com/users/profiles/minecraft/{body.Name}");
 
-            if (world.Whitelist.Any(p => p.Name == body.Name)) return BadRequest("Player already whitelisted");
+            if (whitelist.Result.Any(p => p.Name == body.Name)) return BadRequest("Player already whitelisted");
 
-            var api = new MyMcAPI.Wrapper(world.OwnersToken);
             api.ExecuteCommand($"whitelist add {body.Name}");
 
             List<PlayerResponse> whitelistedPlayers = [];
 
-            foreach (var player in world.Whitelist)
+            foreach (var player in whitelist.Result)
             {
                 PlayerResponse whitelistedPlayer = new()
                 {
@@ -67,7 +69,7 @@ namespace MyMcRealms.Controllers
                 OwnerUUID = "blank",
                 Name = "blank",
                 Motd = world.Motd,
-                State = world.WhitelistEnable ? "CLOSED" : "OPEN",
+                State = whitelist.Enabled ? "CLOSED" : "OPEN",
                 WorldType = "NORMAL",
                 MaxPlayers = 10,
                 MinigameId = null,
@@ -93,14 +95,16 @@ namespace MyMcRealms.Controllers
 
             if (world == null) return NotFound("World not found");
 
-            var player = world.Whitelist.Find(p => p.Uuid.Replace("-", "") == uuid);
+            var api = new MyMcAPI.Wrapper(world.OwnersToken);
+            var whitelist = await api.GetWhitelist();
+
+            var player = whitelist.Result.Find(p => p.Uuid.Replace("-", "") == uuid);
 
             // Get player name
             var playerInfo = await new HttpClient().GetFromJsonAsync<MinecraftPlayerResponse>($"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}");
 
-            if (!world.Whitelist.Any(p => p.Uuid.Replace("-", "") == uuid)) return BadRequest("Player not whitelisted");
+            if (!whitelist.Result.Any(p => p.Uuid.Replace("-", "") == uuid)) return BadRequest("Player not whitelisted");
 
-            var api = new MyMcAPI.Wrapper(world.OwnersToken);
             api.ExecuteCommand($"whitelist remove {player.Name}");
 
             return Ok(true);
