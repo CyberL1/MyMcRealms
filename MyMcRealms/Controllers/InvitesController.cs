@@ -11,6 +11,7 @@ namespace MyMcRealms.Controllers
     public class InvitesController : ControllerBase
     {
         [HttpPost("{wId}")]
+        [CheckRealmOwner]
         public async Task<ActionResult<WorldResponse>> InvitePlayer(int wId, PlayerRequest body)
         {
             string cookie = Request.Headers.Cookie;
@@ -88,6 +89,7 @@ namespace MyMcRealms.Controllers
         }
 
         [HttpDelete("{wId}/invite/{uuid}")]
+        [CheckRealmOwner]
         public async Task<ActionResult<bool>> DeleteInvite(int wId, string uuid)
         {
             var _api = new MyMcAPI.Wrapper(Environment.GetEnvironmentVariable("MYMC_API_KEY"));

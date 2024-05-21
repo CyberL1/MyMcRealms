@@ -80,17 +80,18 @@ namespace MyMcRealms.Controllers
             return Ok(servers);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<WorldResponse>> GetWorldById(int id)
+        [HttpGet("{wId}")]
+        [CheckRealmOwner]
+        public async Task<ActionResult<WorldResponse>> GetWorldById(int wId)
         {
             var _api = new MyMcAPI.Wrapper(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
 
-            var world = (await _api.GetAllServers()).Servers[id];
+            var world = (await _api.GetAllServers()).Servers[wId];
 
             var api = new MyMcAPI.Wrapper(world.OwnersToken);
             var whitelist = await api.GetWhitelist();
 
-            if (whitelist == null) return BadRequest($"Cannot get data for world {id}");
+            if (whitelist == null) return BadRequest($"Cannot get data for world {wId}");
 
             string worldOwnerName = world.Ops.ToArray().Length == 0 ? "Owner" : world.Ops[0].Name;
             string worldOwnerUuid = world.Ops.ToArray().Length == 0 ? "069a79f444e94726a5befca90e38aaf5" : world.Ops[0].Uuid;
@@ -114,7 +115,7 @@ namespace MyMcRealms.Controllers
 
             WorldResponse response = new()
             {
-                Id = id,
+                Id = wId,
                 Owner = worldOwnerName,
                 OwnerUUID = worldOwnerUuid,
                 Name = worldName,
@@ -138,18 +139,21 @@ namespace MyMcRealms.Controllers
         }
 
         [HttpPost("{wId}")]
+        [CheckRealmOwner]
         public ActionResult<string> UpdateRealms(int wId)
         {
             return BadRequest("You can change the MOTD trough server.properties file");
         }
 
         [HttpPost("{wId}/reset")]
+        [CheckRealmOwner]
         public ActionResult<string> ChangeSlot(int id)
         {
             return BadRequest("lol nice try");
         }
 
         [HttpPut("{id}/open")]
+        [CheckRealmOwner]
         public async Task<ActionResult<bool>> Open(int id)
         {
             var _api = new MyMcAPI.Wrapper(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
@@ -165,6 +169,7 @@ namespace MyMcRealms.Controllers
         }
 
         [HttpPut("{id}/close")]
+        [CheckRealmOwner]
         public async Task<ActionResult<bool>> Close(int id)
         {
             var _api = new MyMcAPI.Wrapper(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
@@ -180,12 +185,14 @@ namespace MyMcRealms.Controllers
         }
 
         [HttpPost("{wId}/slot/{sId}")]
+        [CheckRealmOwner]
         public ActionResult<string> UpdateSlot(int wId, int sId)
         {
             return BadRequest("no.");
         }
 
         [HttpGet("{wId}/slot/{sId}/download")]
+        [CheckRealmOwner]
         public ActionResult<string> GetBackups(int wId, int sId)
         {
             return BadRequest("Wouldn't it be nice if you could download your world to singleplayer? Well I think that too");

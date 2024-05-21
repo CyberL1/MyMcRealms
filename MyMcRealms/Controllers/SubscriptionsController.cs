@@ -9,6 +9,7 @@ namespace Minecraft_Realms_Emulator.Controllers
     public class SubscriptionsController : ControllerBase
     {
         [HttpGet("{id}")]
+        [CheckRealmOwner]
         public ActionResult<string> GetSubscription(int id)
         {
             return BadRequest("No subscription for you :(");
