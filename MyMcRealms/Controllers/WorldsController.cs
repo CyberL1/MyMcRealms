@@ -86,9 +86,11 @@ namespace MyMcRealms.Controllers
             var _api = new MyMcAPI.Wrapper(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
 
             var world = (await _api.GetAllServers()).Servers[id];
+
             var api = new MyMcAPI.Wrapper(world.OwnersToken);
             var whitelist = await api.GetWhitelist();
 
+            if (whitelist == null) return BadRequest($"Cannot GET /whitelist for world {id}");
             string worldOwnerName = world.Ops.ToArray().Length == 0 ? "Owner" : world.Ops[0].Name;
             string worldOwnerUuid = world.Ops.ToArray().Length == 0 ? "069a79f444e94726a5befca90e38aaf5" : world.Ops[0].Uuid;
             string worldName = world.Ops.ToArray().Length == 0 ? world.ServerName : $"{world.Ops[0].Name}'s server";
