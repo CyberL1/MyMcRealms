@@ -1,4 +1,5 @@
 using Microsoft.Extensions.FileProviders;
+using Minecraft_Realms_Emulator.Middlewares;
 using MyMcRealms.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +29,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseMiddleware<MinecraftCookieMiddleware>();
+app.UseMiddleware<CheckRealmOwnerMiddleware>();
 
 app.MapControllers();
 app.UseStaticFiles();

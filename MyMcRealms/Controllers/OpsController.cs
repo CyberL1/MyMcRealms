@@ -10,6 +10,7 @@ namespace MyMcRealms.Controllers
     public class OpsController : ControllerBase
     {
         [HttpPost("{wId}/{uuid}")]
+        [CheckRealmOwner]
         public async Task<ActionResult<OpsResponse>> OpPlayer(int wId, string uuid)
         {
             var _api = new MyMcAPI.Wrapper(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
@@ -40,6 +41,7 @@ namespace MyMcRealms.Controllers
         }
 
         [HttpDelete("{wId}/{uuid}")]
+        [CheckRealmOwner]
         public async Task<ActionResult<OpsResponse>> DeopPlayerAsync(int wId, string uuid)
         {
             var _api = new MyMcAPI.Wrapper(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
