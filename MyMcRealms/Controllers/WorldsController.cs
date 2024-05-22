@@ -147,18 +147,18 @@ namespace MyMcRealms.Controllers
 
         [HttpPost("{wId}/reset")]
         [CheckRealmOwner]
-        public ActionResult<string> ChangeSlot(int id)
+        public ActionResult<string> ChangeSlot(int wId)
         {
             return BadRequest("lol nice try");
         }
 
-        [HttpPut("{id}/open")]
+        [HttpPut("{wId}/open")]
         [CheckRealmOwner]
-        public async Task<ActionResult<bool>> Open(int id)
+        public async Task<ActionResult<bool>> Open(int wId)
         {
             var _api = new MyMcAPI.Wrapper(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
 
-            var world = (await _api.GetAllServers()).Servers[id];
+            var world = (await _api.GetAllServers()).Servers[wId];
             var api = new MyMcAPI.Wrapper(world.OwnersToken);
 
             if (world == null) return NotFound("World not found");
@@ -168,13 +168,13 @@ namespace MyMcRealms.Controllers
             return Ok(true);
         }
 
-        [HttpPut("{id}/close")]
+        [HttpPut("{wId}/close")]
         [CheckRealmOwner]
-        public async Task<ActionResult<bool>> Close(int id)
+        public async Task<ActionResult<bool>> Close(int wId)
         {
             var _api = new MyMcAPI.Wrapper(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
 
-            var world = (await _api.GetAllServers()).Servers[id];
+            var world = (await _api.GetAllServers()).Servers[wId];
             var api = new MyMcAPI.Wrapper(world.OwnersToken);
 
             if (world == null) return NotFound("World not found");
