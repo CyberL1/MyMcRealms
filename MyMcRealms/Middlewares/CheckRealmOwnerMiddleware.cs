@@ -36,7 +36,7 @@ namespace Minecraft_Realms_Emulator.Middlewares
                 return;
             }
 
-            if (!attribute.IsRealmOwner(playerUUID, server.Ops[0].Uuid))
+            if (!attribute.IsRealmOwner(playerUUID, server.Ops[0].Uuid.Replace("-", "")))
             {
                 httpContext.Response.StatusCode = 403;
                 await httpContext.Response.WriteAsync("You don't own this world");
