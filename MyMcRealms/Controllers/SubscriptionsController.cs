@@ -8,9 +8,9 @@ namespace Minecraft_Realms_Emulator.Controllers
     [RequireMinecraftCookie]
     public class SubscriptionsController : ControllerBase
     {
-        [HttpGet("{id}")]
+        [HttpGet("{wId}")]
         [CheckRealmOwner]
-        public ActionResult<string> GetSubscription(int id)
+        public ActionResult<string> GetSubscription(int wId)
         {
             return BadRequest("No subscription for you :(");
         }
