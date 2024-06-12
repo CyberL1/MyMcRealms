@@ -2,7 +2,9 @@
 using MyMcRealms.Attributes;
 using MyMcRealms.MyMcAPI.Responses;
 using MyMcRealms.Responses;
+using Newtonsoft.Json;
 using Semver;
+using System.Text.Json;
 
 namespace MyMcRealms.Controllers
 {
@@ -72,7 +74,7 @@ namespace MyMcRealms.Controllers
                 }
             }
 
-                ServersResponse servers = new()
+            ServersResponse servers = new()
             {
                 Servers = allWorlds
             };
@@ -113,6 +115,12 @@ namespace MyMcRealms.Controllers
                 whitelistedPlayers.Add(whitelistedPlayer);
             }
 
+            string cookie = Request.Headers.Cookie;
+            string gameVerision = cookie.Split(";")[2].Split("=")[1];
+
+            int versionsCompared = SemVersion.Parse(gameVerision, SemVersionStyles.OptionalPatch).ComparePrecedenceTo(SemVersion.Parse(world.GameVersion, SemVersionStyles.OptionalPatch));
+            string isCompatible = versionsCompared == 0 ? "COMPATIBLE" : versionsCompared < 0 ? "NEEDS_DOWNGRADE" : "NEEDS_UPGRADE";
+
             WorldResponse response = new()
             {
                 Id = wId,
@@ -132,7 +140,20 @@ namespace MyMcRealms.Controllers
                 DaysLeft = 7,
                 Expired = false,
                 ExpiredTrial = false,
-                ActiveVersion = world.GameVersion
+                ActiveVersion = world.GameVersion,
+                Slots =
+                [
+                    new()
+                    {
+                        SlotId = 1,
+                        Options = JsonConvert.SerializeObject(new
+                        {
+                            slotName = "my-mc.link",
+                            version = world.GameVersion,
+                            compatibility = isCompatible,
+                        })
+                    }
+                ]
             };
 
             return Ok(response);
