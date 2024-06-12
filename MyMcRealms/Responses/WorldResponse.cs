@@ -18,7 +18,7 @@ namespace MyMcRealms.Responses
         public int? MinigameId { get; set; }
         public string? MinigameImage { get; set; }
         public int ActiveSlot { get; set; } = 1;
-        public JsonDocument[] Slots { get; set; } = [];
+        public List<SlotResponse> Slots { get; set; } = [];
         public bool Member { get; set; } = false;
         public string RemoteSubscriptionId { get; set; } = Guid.NewGuid().ToString();
         public int DaysLeft { get; set; } = 30;
