@@ -4,7 +4,6 @@ using MyMcRealms.MyMcAPI.Responses;
 using MyMcRealms.Responses;
 using Newtonsoft.Json;
 using Semver;
-using System.Text.Json;
 
 namespace MyMcRealms.Controllers
 {
