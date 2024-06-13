@@ -8,8 +8,8 @@ namespace MyMcRealms.Controllers
     [RequireMinecraftCookie]
     public class TrialController : ControllerBase
     {
-        [HttpGet(Name = "GetTrial")]
-        public bool Get() {
+        [HttpGet]
+        public bool GetTrial() {
             return false;
         }
     }
