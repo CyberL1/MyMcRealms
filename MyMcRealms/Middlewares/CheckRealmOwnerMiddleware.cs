@@ -1,4 +1,5 @@
-﻿using MyMcRealms.Attributes;
+﻿using Minecraft_Realms_Emulator.Responses;
+using MyMcRealms.Attributes;
 using MyMcRealms.MyMcAPI.Responses;
 
 namespace Minecraft_Realms_Emulator.Middlewares
@@ -25,21 +26,39 @@ namespace Minecraft_Realms_Emulator.Middlewares
 
             if (server == null)
             {
+                ErrorResponse errorResponse = new()
+                {
+                    ErrorCode = 404,
+                    ErrorMsg = "World not found"
+                };
+
                 httpContext.Response.StatusCode = 404;
-                await httpContext.Response.WriteAsync("World not found");
+                await httpContext.Response.WriteAsJsonAsync(errorResponse);
                 return;
             }
 
             if (server.Ops.Count == 0) {
+                ErrorResponse errorResponse = new()
+                {
+                    ErrorCode = 403,
+                    ErrorMsg = "This world isn't owner by anyone"
+                };
+
                 httpContext.Response.StatusCode = 403;
-                await httpContext.Response.WriteAsync("This world isn't owned by anyone");
+                await httpContext.Response.WriteAsJsonAsync(errorResponse);
                 return;
             }
 
             if (!attribute.IsRealmOwner(playerUUID, server.Ops[0].Uuid.Replace("-", "")))
             {
+                ErrorResponse errorResponse = new()
+                {
+                    ErrorCode = 403,
+                    ErrorMsg = "You don't own this world"
+                };
+
                 httpContext.Response.StatusCode = 403;
-                await httpContext.Response.WriteAsync("You don't own this world");
+                await httpContext.Response.WriteAsJsonAsync(errorResponse);
                 return;
             }
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Minecraft_Realms_Emulator.Responses;
 using MyMcRealms.Attributes;
 
 namespace Minecraft_Realms_Emulator.Controllers
@@ -12,7 +13,13 @@ namespace Minecraft_Realms_Emulator.Controllers
         [CheckRealmOwner]
         public ActionResult<string> GetSubscription(int wId)
         {
-            return BadRequest("No subscription for you :(");
+            ErrorResponse errorResponse = new()
+            {
+                ErrorCode = 400,
+                ErrorMsg = "No subscription for you :("
+            };
+
+            return BadRequest(errorResponse);
         }
     }
 }
