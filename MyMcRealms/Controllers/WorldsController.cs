@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Minecraft_Realms_Emulator.Responses;
 using MyMcRealms.Attributes;
 using MyMcRealms.MyMcAPI.Responses;
 using MyMcRealms.Responses;
@@ -92,7 +93,16 @@ namespace MyMcRealms.Controllers
             var api = new MyMcAPI.Wrapper(world.OwnersToken);
             var whitelist = await api.GetWhitelist();
 
-            if (whitelist == null) return BadRequest($"Cannot get data for world {wId}");
+            if (whitelist == null)
+            {
+                ErrorResponse errorResponse = new()
+                {
+                    ErrorCode = 400,
+                    ErrorMsg = $"Cannot get data for world {wId}"
+                };
+
+                return BadRequest(errorResponse);
+            }
 
             string worldOwnerName = world.Ops.ToArray().Length == 0 ? "Owner" : world.Ops[0].Name;
             string worldOwnerUuid = world.Ops.ToArray().Length == 0 ? "069a79f444e94726a5befca90e38aaf5" : world.Ops[0].Uuid;
@@ -162,14 +172,26 @@ namespace MyMcRealms.Controllers
         [CheckRealmOwner]
         public ActionResult<string> UpdateRealms(int wId)
         {
-            return BadRequest("You can change the MOTD trough server.properties file");
+            ErrorResponse errorResponse = new()
+            {
+                ErrorCode = 400,
+                ErrorMsg = "You can change the MOTD trough server.properties file"
+            };
+
+            return BadRequest(errorResponse);
         }
 
         [HttpPost("{wId}/reset")]
         [CheckRealmOwner]
         public ActionResult<string> ChangeSlot(int wId)
         {
-            return BadRequest("lol nice try");
+            ErrorResponse errorResponse = new()
+            {
+                ErrorCode = 400,
+                ErrorMsg = "lol nice try"
+            };
+
+            return BadRequest(errorResponse);
         }
 
         [HttpPut("{wId}/open")]
@@ -181,7 +203,16 @@ namespace MyMcRealms.Controllers
             var world = (await _api.GetAllServers()).Servers[wId];
             var api = new MyMcAPI.Wrapper(world.OwnersToken);
 
-            if (world == null) return NotFound("World not found");
+            if (world == null)
+            {
+                ErrorResponse errorResponse = new()
+                {
+                    ErrorCode = 404,
+                    ErrorMsg = "World not found"
+                };
+
+                return NotFound(errorResponse);
+            }
 
             api.ExecuteCommand("whitelist off");
 
@@ -197,7 +228,16 @@ namespace MyMcRealms.Controllers
             var world = (await _api.GetAllServers()).Servers[wId];
             var api = new MyMcAPI.Wrapper(world.OwnersToken);
 
-            if (world == null) return NotFound("World not found");
+            if (world == null)
+            {
+                ErrorResponse errorResponse = new()
+                {
+                    ErrorCode = 404,
+                    ErrorMsg = "World not found"
+                };
+
+                return NotFound(errorResponse);
+            }
 
             api.ExecuteCommand("whitelist on");
 
@@ -208,14 +248,26 @@ namespace MyMcRealms.Controllers
         [CheckRealmOwner]
         public ActionResult<string> UpdateSlot(int wId, int sId)
         {
-            return BadRequest("no.");
+            ErrorResponse errorResponse = new()
+            {
+                ErrorCode = 400,
+                ErrorMsg = "no."
+            };
+
+            return BadRequest(errorResponse);
         }
 
         [HttpGet("{wId}/slot/{sId}/download")]
         [CheckRealmOwner]
         public ActionResult<string> GetBackups(int wId, int sId)
         {
-            return BadRequest("Wouldn't it be nice if you could download your world to singleplayer? Well I think that too");
+            ErrorResponse errorResponse = new()
+            {
+                ErrorCode = 400,
+                ErrorMsg = "Wouldn't it be nice if you could download your world to singleplayer? Well I think that too"
+            };
+
+            return BadRequest(errorResponse);
         }
 
         [HttpGet("v1/{wId}/join/pc")]

@@ -2,6 +2,7 @@
 using MyMcRealms.Responses;
 using MyMcRealms.Attributes;
 using MyMcRealms.Requests;
+using Minecraft_Realms_Emulator.Responses;
 
 namespace MyMcRealms.Controllers
 {
@@ -22,7 +23,16 @@ namespace MyMcRealms.Controllers
             var _api = new MyMcAPI.Wrapper(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
             var world = (await _api.GetAllServers()).Servers[wId];
 
-            if (world == null) return NotFound("World not found");
+            if (world == null)
+            {
+                ErrorResponse errorResponse = new()
+                {
+                    ErrorCode = 404,
+                    ErrorMsg = "World not found"
+                };
+
+                return NotFound(errorResponse);
+            }
             
             var api = new MyMcAPI.Wrapper(world.OwnersToken);
             var whitelist = await api.GetWhitelist();
@@ -30,7 +40,16 @@ namespace MyMcRealms.Controllers
             // Get player name
             var playerInfo = await new HttpClient().GetFromJsonAsync<MinecraftPlayerResponse>($"https://api.mojang.com/users/profiles/minecraft/{body.Name}");
 
-            if (whitelist.Result.Any(p => p.Name == body.Name)) return BadRequest("Player already whitelisted");
+            if (whitelist.Result.Any(p => p.Name == body.Name))
+            {
+                ErrorResponse errorResponse = new()
+                {
+                    ErrorCode = 400,
+                    ErrorMsg = "Player already whitelisteed"
+                };
+
+                return BadRequest(errorResponse);
+            }
 
             api.ExecuteCommand($"whitelist add {body.Name}");
 
@@ -95,7 +114,16 @@ namespace MyMcRealms.Controllers
             var _api = new MyMcAPI.Wrapper(Environment.GetEnvironmentVariable("MYMC_API_KEY"));
             var world = (await _api.GetAllServers()).Servers[wId];
 
-            if (world == null) return NotFound("World not found");
+            if (world == null)
+            {
+                ErrorResponse errorResponse = new()
+                {
+                    ErrorCode = 404,
+                    ErrorMsg = "World not found"
+                };
+
+                return NotFound(errorResponse);
+            }
 
             var api = new MyMcAPI.Wrapper(world.OwnersToken);
             var whitelist = await api.GetWhitelist();
@@ -105,7 +133,16 @@ namespace MyMcRealms.Controllers
             // Get player name
             var playerInfo = await new HttpClient().GetFromJsonAsync<MinecraftPlayerResponse>($"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}");
 
-            if (!whitelist.Result.Any(p => p.Uuid.Replace("-", "") == uuid)) return BadRequest("Player not whitelisted");
+            if (!whitelist.Result.Any(p => p.Uuid.Replace("-", "") == uuid))
+            {
+                ErrorResponse errorResponse = new()
+                {
+                    ErrorCode = 400,
+                    ErrorMsg = "Player not whitelisted"
+                };
+
+                return BadRequest(errorResponse);
+            }
 
             api.ExecuteCommand($"whitelist remove {player.Name}");
 
@@ -115,7 +152,13 @@ namespace MyMcRealms.Controllers
         [HttpDelete("{wId}")]
         public ActionResult<string> LeaveRealms(int wId)
         {
-            return BadRequest("You wish lmao");
+            ErrorResponse errorResponse = new()
+            {
+                ErrorCode = 400,
+                ErrorMsg = "You with lmao"
+            };
+
+            return BadRequest(errorResponse);
         }
     }
 }
