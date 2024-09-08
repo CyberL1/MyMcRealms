@@ -20,8 +20,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install sshpass
       - name: Stop the realms server for the deployment
-        run: sshpass -p '${{ secrets.VPS_PASSWORD }}' ssh -o StrictHostKeyChecking=no cyber@my-mc.link "pm2 stop 0"
+        run: sshpass -p '${{ secrets.VPS_PASSWORD }}' ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_HOST }} -p ${{ secrets.VPS_PORT }} "pm2 stop 0"
       - name: Deploy compiled binary and dll files to server
-        run: sshpass -p '${{ secrets.VPS_PASSWORD }}' scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r MyMcRealms/bin/Release/net8.0/linux-arm64/publish/* cyber@my-mc.link:/home/cyber/MyMcRealms
+        run: sshpass -p '${{ secrets.VPS_PASSWORD }}' scp -P ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r MyMcRealms/bin/Release/net8.0/linux-arm64/publish/* ${{ secrets.VPS_HOST }}:/home/cyber/MyMcRealms
       - name: Start the realms server again
-        run: sshpass -p '${{ secrets.VPS_PASSWORD }}' ssh -o StrictHostKeyChecking=no cyber@my-mc.link "pm2 start 0"
+        run: sshpass -p '${{ secrets.VPS_PASSWORD }}' ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_HOST }} -p ${{ secrets.VPS_PORT }} "pm2 start 0"
