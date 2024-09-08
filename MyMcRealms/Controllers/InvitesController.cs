@@ -155,7 +155,7 @@ namespace MyMcRealms.Controllers
             ErrorResponse errorResponse = new()
             {
                 ErrorCode = 400,
-                ErrorMsg = "You with lmao"
+                ErrorMsg = "You wish lmao"
             };
 
             return BadRequest(errorResponse);
