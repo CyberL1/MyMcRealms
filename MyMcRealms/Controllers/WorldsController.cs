@@ -42,7 +42,6 @@ namespace MyMcRealms.Controllers
 
                     bool isCompatibleOnOlderVersions = isOlderVersion && !isCompatible.StartsWith("NEEDS_");
                     bool isBanned = world.Banlist.Any(p => p.Name == playerName);
-                    Console.WriteLine(isCompatibleOnOlderVersions);
 
                     string worldOwnerName = world.Ops.ToArray().Length == 0 ? "Owner" : world.Ops[0].Name;
                     string worldOwnerUuid = world.Ops.ToArray().Length == 0 ? "069a79f444e94726a5befca90e38aaf5" : world.Ops[0].Uuid;
