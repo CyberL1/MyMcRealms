@@ -39,7 +39,6 @@ namespace MyMcRealms.Controllers
                     string isCompatible = versionsCompared == 0 ? "COMPATIBLE" : versionsCompared < 0 ? "NEEDS_DOWNGRADE" : "NEEDS_UPGRADE";
 
                     bool isOlderVersion = SemVersion.Parse(gameVerision, SemVersionStyles.OptionalPatch).ComparePrecedenceTo(SemVersion.Parse("1.20.3", SemVersionStyles.OptionalPatch)) < 0;
-                    //Console.WriteLine(isOlderVersion);
 
                     bool isCompatibleOnOlderVersions = isOlderVersion && !isCompatible.StartsWith("NEEDS_");
                     bool isBanned = world.Banlist.Any(p => p.Name == playerName);
