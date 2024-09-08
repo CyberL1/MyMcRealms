@@ -48,10 +48,10 @@ namespace MyMcRealms.Controllers
                     string worldName = world.Ops.ToArray().Length == 0 ? world.ServerName : $"{world.Ops[0].Name}'s server";
                     string worldState = !isBanned ? "OPEN" : "CLOSED";
 
-                    if (!isCompatibleOnOlderVersions)
-                    {
-                        worldState = "CLOSED";
-                    }
+//                    if (!isCompatibleOnOlderVersions)
+//                    {
+//                        worldState = "CLOSED";
+//                    }
 
                     WorldResponse response = new()
                     {
