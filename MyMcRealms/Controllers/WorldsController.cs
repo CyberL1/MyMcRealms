@@ -40,7 +40,7 @@ namespace MyMcRealms.Controllers
 
                     bool isOlderVersion = SemVersion.Parse(gameVerision, SemVersionStyles.OptionalPatch).ComparePrecedenceTo(SemVersion.Parse("1.20.3", SemVersionStyles.OptionalPatch)) < 0;
 
-                    bool isCompatibleOnOlderVersions = isOlderVersion && !isCompatible.StartsWith("NEEDS_");
+                    bool isCompatibleOnOlderVersions = isOlderVersion && isCompatible == "COMPATIBLE";
                     bool isBanned = world.Banlist.Any(p => p.Name == playerName);
 
                     string worldOwnerName = world.Ops.ToArray().Length == 0 ? "Owner" : world.Ops[0].Name;
@@ -48,10 +48,10 @@ namespace MyMcRealms.Controllers
                     string worldName = world.Ops.ToArray().Length == 0 ? world.ServerName : $"{world.Ops[0].Name}'s server";
                     string worldState = !isBanned ? "OPEN" : "CLOSED";
 
-//                    if (!isCompatibleOnOlderVersions)
-//                    {
-//                        worldState = "CLOSED";
-//                    }
+                    if (isOlderVersion && !isCompatibleOnOlderVersions)
+                    {
+                        worldState = "CLOSED";
+                    }
 
                     WorldResponse response = new()
                     {
