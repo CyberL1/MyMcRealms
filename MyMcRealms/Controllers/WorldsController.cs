@@ -43,7 +43,7 @@ namespace MyMcRealms.Controllers
                     bool isCompatibleOnOlderVersions = isOlderVersion && isCompatible == "COMPATIBLE";
                     bool isBanned = world.Banlist.Any(p => p.Name == playerName);
 
-                    string worldOwnerName = world.Ops.ToArray().Length == 0 ? "Owner" : world.Ops[0].Name;
+                    string worldOwnerName = world.Ops.ToArray().Length == 0 ? "Not claimed" : world.Ops[0].Name;
                     string worldOwnerUuid = world.Ops.ToArray().Length == 0 ? "069a79f444e94726a5befca90e38aaf5" : world.Ops[0].Uuid;
                     string worldName = world.Ops.ToArray().Length == 0 ? world.ServerName : $"{world.Ops[0].Name}'s server";
                     string worldState = !isBanned ? "OPEN" : "CLOSED";
