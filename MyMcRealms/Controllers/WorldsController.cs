@@ -59,7 +59,7 @@ namespace MyMcRealms.Controllers
                         Owner = worldOwnerName,
                         OwnerUUID = worldOwnerUuid,
                         Name = worldName,
-                        Motd = world.Motd,
+                        Motd = world.Motd.Replace("�", "§"),
                         State = worldState,
                         WorldType = "NORMAL",
                         MaxPlayers = 10,
