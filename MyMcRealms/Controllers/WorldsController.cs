@@ -53,6 +53,13 @@ namespace MyMcRealms.Controllers
                         worldState = "CLOSED";
                     }
 
+                    if (SemVersion.Parse(gameVerision, SemVersionStyles.OptionalPatch).ComparePrecedenceTo(SemVersion.Parse("1.19.4", SemVersionStyles.OptionalPatch)) < 0) {
+                        world.Motd = world.Motd.Remove(32); // Pre 1.19.4 MOTD limit
+                    } else
+                    {
+                        world.Motd = world.Motd.Remove(52); // Post 1.19.4 MOTD limit
+                    }
+
                     WorldResponse response = new()
                     {
                         Id = AllServers.Servers.IndexOf(world),
