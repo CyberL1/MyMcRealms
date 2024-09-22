@@ -53,14 +53,13 @@ namespace MyMcRealms.Controllers
                         worldState = "CLOSED";
                     }
 
-                    if (SemVersion.Parse(gameVerision, SemVersionStyles.OptionalPatch).ComparePrecedenceTo(SemVersion.Parse("1.19.4", SemVersionStyles.OptionalPatch)) < 0) {
+                    if (SemVersion.Parse(gameVerision, SemVersionStyles.OptionalPatch).ComparePrecedenceTo(SemVersion.Parse("1.19.4", SemVersionStyles.OptionalPatch)) < 0)
+                    {
                         if (world.Motd.Length > 32)
                         {
                             world.Motd = world.Motd.Remove(32); // Pre 1.19.4 MOTD limit
                         }
-                    } else
-                    {
-                        if (world.Motd.Length > 52)
+                        else if (world.Motd.Length > 52)
                         {
                             world.Motd = world.Motd.Remove(52); // Post 1.19.4 MOTD limit
                         }
@@ -122,9 +121,9 @@ namespace MyMcRealms.Controllers
                 return BadRequest(errorResponse);
             }
 
-            string worldOwnerName = world.Ops.ToArray().Length == 0 ? "Owner" : world.Ops[0].Name;
-            string worldOwnerUuid = world.Ops.ToArray().Length == 0 ? "069a79f444e94726a5befca90e38aaf5" : world.Ops[0].Uuid;
-            string worldName = world.Ops.ToArray().Length == 0 ? world.ServerName : $"{world.Ops[0].Name}'s server";
+            string worldOwnerName = world.Ops[0].Name;
+            string worldOwnerUuid = world.Ops[0].Uuid;
+            string worldName = $"{world.Ops[0].Name}'s server";
             List<PlayerResponse> whitelistedPlayers = [];
 
             foreach (var player in whitelist.Result)
