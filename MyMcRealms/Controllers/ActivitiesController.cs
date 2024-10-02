@@ -24,6 +24,11 @@ namespace MyMcRealms.Controllers
 
             foreach (var world in allServers.Servers)
             {
+                if (world.WhitelistEnable && !(world.Whitelist.Any(p => p.Uuid.Replace("-", "") == playerUUID) || world.Ops.Any(p => p.Uuid.Replace("-", "") == playerUUID)))
+                {
+                    continue;
+                }
+
                 var query = new MinecraftServerQuery().Query(world.Connect);
 
                 if (query == null) continue;
