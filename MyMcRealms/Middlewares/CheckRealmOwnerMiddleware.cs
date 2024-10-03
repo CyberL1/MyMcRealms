@@ -41,7 +41,7 @@ namespace Minecraft_Realms_Emulator.Middlewares
                 ErrorResponse errorResponse = new()
                 {
                     ErrorCode = 403,
-                    ErrorMsg = "This world isn't owner by anyone"
+                    ErrorMsg = "This world isn't owned by anyone"
                 };
 
                 httpContext.Response.StatusCode = 403;
