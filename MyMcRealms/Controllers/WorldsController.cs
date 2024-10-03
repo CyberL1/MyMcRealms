@@ -59,7 +59,10 @@ namespace MyMcRealms.Controllers
                         {
                             world.Motd = world.Motd.Remove(32); // Pre 1.19.4 MOTD limit
                         }
-                        else if (world.Motd.Length > 52)
+                    }
+                    else
+                    {
+                        if (world.Motd.Length > 52)
                         {
                             world.Motd = world.Motd.Remove(52); // Post 1.19.4 MOTD limit
                         }
