@@ -45,7 +45,7 @@ namespace MyMcRealms.Controllers
                 ErrorResponse errorResponse = new()
                 {
                     ErrorCode = 400,
-                    ErrorMsg = "Player already whitelisteed"
+                    ErrorMsg = "Player already whitelisted"
                 };
 
                 return BadRequest(errorResponse);
