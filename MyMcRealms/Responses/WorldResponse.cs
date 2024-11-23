@@ -1,11 +1,8 @@
-﻿using System.Text.Json;
-
-namespace MyMcRealms.Responses
+﻿namespace MyMcRealms.Responses
 {
     public class WorldResponse
     {
         public int Id { get; set; }
-        //        public Subscription? Subscription { get; set; }
         public string? Owner { get; set; }
         public string? OwnerUUID { get; set; }
         public string? Name { get; set; }
