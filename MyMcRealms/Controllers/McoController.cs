@@ -18,7 +18,7 @@ namespace MyMcRealms.Controllers
         [HttpGet("client/compatible")]
         public string GetCompatible()
         {
-            return Compatility.COMPATIBLE.ToString();
+            return "COMPATIBLE";
         }
 
         [HttpGet("v1/news")]
@@ -26,7 +26,7 @@ namespace MyMcRealms.Controllers
         {
             var news = new NewsResponse
             {
-                NewsLink = "https://github.com/CyberL1/Minecraft-Realms-Emulator",
+                NewsLink = "https://github.com/CyberL1/MyMcRealms",
             };
 
             return news;
