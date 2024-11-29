@@ -156,7 +156,7 @@ namespace MyMcRealms.Controllers
                 Owner = worldOwnerName,
                 OwnerUUID = worldOwnerUuid,
                 Name = worldName,
-                Motd = world.Motd,
+                Motd = world.Motd.Replace("�", "§"),
                 State = whitelist.Enabled ? "CLOSED" : "OPEN",
                 WorldType = "NORMAL",
                 MaxPlayers = 10,
