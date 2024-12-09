@@ -90,6 +90,10 @@ namespace MyMcRealms.Controllers
                         ActiveVersion = world.GameVersion
                     };
 
+                    if (world.Gamemode == "survival") response.GameMode = 0;
+                    if (world.Gamemode == "creative") response.GameMode = 1;
+                    if (world.Gamemode == "adventure") response.GameMode = 2;
+
                     allWorlds.Add(response);
                 }
             }
@@ -184,6 +188,10 @@ namespace MyMcRealms.Controllers
                     }
                 ]
             };
+
+            if (world.Gamemode == "survival") response.GameMode = 0;
+            if (world.Gamemode == "creative") response.GameMode = 1;
+            if (world.Gamemode == "adventure") response.GameMode = 2;
 
             return Ok(response);
         }
