@@ -19,6 +19,7 @@
         public bool WhitelistEnable { get; set; }
         public string OwnersToken { get; set; } = string.Empty;
         public string Gamemode { get; set; } = null!;
+        public string Difficulty { get; set; } = null!;
     }
 
     public class Op

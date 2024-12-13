@@ -8,7 +8,7 @@
         public string? Name { get; set; }
         public string? Motd { get; set; }
         public int GameMode { get; set; }
-        public bool Hardcore { get; set; }
+        public bool IsHardcore { get; set; }
         public string State { get; set; } = "OPEN";
         public string WorldType { get; set; } = "NORMAL";
         public List<PlayerResponse> Players { get; set; } = [];
