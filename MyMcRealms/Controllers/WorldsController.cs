@@ -30,7 +30,7 @@ namespace MyMcRealms.Controllers
             {
                 if (world.Online)
                 {
-                    if (world.WhitelistEnable && !(world.Whitelist.Any(p => p.Uuid.Replace("-", "") == playerUUID) || world.Ops.Any(p => p.Uuid.Replace("-", "") == playerUUID)))
+                    if (world.WhitelistEnable && !(world.Whitelist.Any(p => p.Uuid.Replace("-", "") == playerUUID) && world.Ops.Any(p => p.Uuid.Replace("-", "") == playerUUID)))
                     {
                         continue;
                     }
