@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Minecraft_Realms_Emulator.Responses;
 using MyMcRealms.Attributes;
+using MyMcRealms.Responses;
 
-namespace Minecraft_Realms_Emulator.Controllers
+namespace MyMcRealms.Controllers
 {
     [Route("[controller]")]
     [ApiController]
@@ -13,13 +14,14 @@ namespace Minecraft_Realms_Emulator.Controllers
         [CheckRealmOwner]
         public ActionResult<string> GetSubscription(int wId)
         {
-            ErrorResponse errorResponse = new()
+            var sub = new SubscriptionResponse
             {
-                ErrorCode = 400,
-                ErrorMsg = "No subscription for you :("
+                StartDate = ((DateTimeOffset)DateTime.Today).ToUnixTimeMilliseconds(),
+                DaysLeft =  ((DateTimeOffset)DateTime.Today.AddDays(30) - DateTime.Today).Days,
+                SubscriptionType = "NORMAL"
             };
 
-            return BadRequest(errorResponse);
+            return Ok(sub);
         }
     }
 }
